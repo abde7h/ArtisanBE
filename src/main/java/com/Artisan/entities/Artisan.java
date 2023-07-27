@@ -9,9 +9,9 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "User")
+@Table(name = "Artisan")
 
-public class User {
+public class Artisan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")

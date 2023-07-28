@@ -11,15 +11,21 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Category")
+@Table(name = "Chat_Message")
 
-public class Category {
+public class ChatMessage {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "category_id")
-	int id;
-	@Column(name = "name")
-	String name;
-
+	@Column(name = "message_id")
+	int message_id;
+	@Column(name = "room_id")
+	int room_id;
+	@Column(name = "user_id")
+	int user_id;
+	@Column(name = "artisan_id")
+	int artisan_id;
+	@Column(name = "timestamp")
+	String timestamp;
+	
 }

@@ -11,15 +11,15 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Category")
+@Table(name = "Chat_Room")
 
-public class Category {
+public class ChatRoom {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "category_id")
-	int id;
-	@Column(name = "name")
-	String name;
-
+	@Column(name = "room_id")
+	int room_id;
+	@Column(name = "product_id")
+	int product_id;
+	
 }

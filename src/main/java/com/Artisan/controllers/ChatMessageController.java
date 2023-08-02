@@ -44,7 +44,7 @@ public class ChatMessageController {
 	@GetMapping("/chatMessage/{idChat}")
 	public Optional<ChatMessage> findChatMessageById(@PathVariable Long idChat) {
 		
-		log.info("Request a http://localhost:PORT/1.0.0/likes/" + idChat + " (GET)");
+		log.info("Request a http://localhost:PORT/1.0.0/chatMessage/" + idChat + " (GET)");
 		Optional<ChatMessage> chatMessage = chatMessageService.findChatMessageById(idChat);
 		return chatMessage;
 		

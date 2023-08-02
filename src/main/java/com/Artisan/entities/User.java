@@ -14,11 +14,10 @@ import lombok.Data;
 @Table(name = "User")
 
 public class User {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
-	int user_id;
+	Integer user_id;
 	@Column(name = "username")
 	String username;
 	@Column(name = "email")

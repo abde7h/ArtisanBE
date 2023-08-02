@@ -1,12 +1,12 @@
 package com.Artisan.controllers;
 
 import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,18 +39,29 @@ public class LikesController {
 		return likesService.findAllLikes();
 
 	}
+		 
 
-	@RequestMapping("/likes/{idProduct}")
-	public Optional<Likes> findLikesById(@PathVariable Long idProduct) {
-		log.info("Request a http://localhost:PORT/1.0.0/likes/" + idProduct + " (GET)");
-		Optional<Likes> likes = likesService.findLikesById(idProduct);
-		return likes;
+	@RequestMapping("/likes/{productId}")
+   public ResponseEntity<List<Likes>> getLikesByProductId(@PathVariable Integer productId) {
+		
+        List<Likes> likes = likesService.findLikesByProduct_Id(productId);
+        return (likes.isEmpty()) ? ResponseEntity.notFound().build()
+       		: ResponseEntity.ok(likes);
+        }
+  
+
+	@RequestMapping("/likes/{userId}/{productId}")
+	public ResponseEntity<List<Likes>> getLikesByUserIdAndProductId(@PathVariable Integer userId,
+			@PathVariable Integer productId) {
+
+		List<Likes> likes = likesService.findLikesByUser_IdAndProduct_Id(userId, productId);
+		return (likes.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(likes);
 
 	}
 
 	@PostMapping("/likes/add")
 	public ResponseEntity<Likes> saveLikes(@RequestBody Likes likes) {
-		
+
 		log.info("Request a http://localhost:PORT/1.0.0/likes/add (POST)");
 		Likes savedLikes = likesService.saveLikes(likes);
 		return (savedLikes != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedLikes)
@@ -58,32 +69,10 @@ public class LikesController {
 
 	}
 
-	@DeleteMapping("/product/likes/{idProduct}")
-	public ResponseEntity<Object> deleteLikes(@PathVariable Long idProduct) {
-		log.info("Request a http://localhost:PORT/1.0.0/likes/delete/" + idProduct + " (DELETE)");
-		String result = likesService.deleteLikes(idProduct);
-		return (result.equals("Likes eliminado correctamente.")) ? ResponseEntity.noContent().build()
-				: ResponseEntity.notFound().build();
-
-	}
-
-	@PatchMapping("/likes/update")
-	public ResponseEntity<String> updateLikes(@RequestBody Likes likesUpdated) {
-		
-		log.info("Request a http://localhost:PORT/1.0.0/likes/update (PATCH)");
-		Long productId = (long) likesUpdated.getProduct_id();
-		Optional<Likes> existingProduct = likesService.findLikesById(productId);
-		
-		if (existingProduct.isPresent()) {
-			
-			likesService.updateLikes(likesUpdated);
-			return ResponseEntity.ok("Likes modificado");
-			
-		} else {
-			
-			return ResponseEntity.notFound().build();
-			
-		}
+	@DeleteMapping("/likes/delete/{userId}/{productId}")
+	public ResponseEntity<String> deleteLikes(@PathVariable Integer userId, @PathVariable Integer productId) {
+		likesService.deleteLikes(userId, productId);
+		return ResponseEntity.ok("Seguidor eliminado correctamente.");
 	}
 
 }

@@ -18,13 +18,13 @@ public class ChatMessage {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "message_id")
-	int message_id;
+	Integer message_id;
 	@Column(name = "room_id")
-	int room_id;
+	Integer room_id;
 	@Column(name = "user_id")
-	int user_id;
+	Integer user_id;
 	@Column(name = "artisan_id")
-	int artisan_id;
+	Integer artisan_id;
 	@Column(name = "timestamp")
 	String timestamp;
 	

@@ -66,12 +66,12 @@ public class ArtisanService implements IArtisanService{
 	@Override
 	public String updateArtisan(Artisan artisanUpdated) {
 		
-		int num = artisanUpdated.getUser_id();
+		int num = artisanUpdated.getArtisan_id();
 		
 		if (artisanRepository.findById((long) num).isPresent()) {
 			
 			Artisan artisanToUpdate = new Artisan();
-			artisanToUpdate.setUser_id(artisanUpdated.getUser_id());
+			artisanToUpdate.setArtisan_id(artisanToUpdate.getArtisan_id());
 			artisanToUpdate.setName(artisanUpdated.getName());
 			artisanToUpdate.setEmail(artisanUpdated.getEmail());
 			artisanToUpdate.setPassword(artisanUpdated.getPassword());

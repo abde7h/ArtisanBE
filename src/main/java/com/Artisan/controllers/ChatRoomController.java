@@ -33,7 +33,7 @@ public class ChatRoomController {
 		
 	}
 
-	@GetMapping("/chat_room")
+	@GetMapping("/chatRoom")
 	public List<ChatRoom> getChatRoom() {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom (GET)");
@@ -41,16 +41,16 @@ public class ChatRoomController {
 		
 	}
 
-	@GetMapping("/chat_room/{idChat}")
+	@GetMapping("/chatRoom/{idChat}")
 	public Optional<ChatRoom> findChatRoomById(@PathVariable Long idChat) {
 		
-		log.info("Request a http://localhost:PORT/1.0.0/likes/" + idChat + " (GET)");
+		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/" + idChat + " (GET)");
 		Optional<ChatRoom> chatRoom = chatRoomService.findChatRoomById(idChat);
 		return chatRoom;
 		
 	}
 
-	@PostMapping("/chat_room/add")
+	@PostMapping("/chatRoom/add")
 	public ResponseEntity<ChatRoom> saveChatRoom(@RequestBody ChatRoom chatRoom) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/add (POST)");
@@ -60,7 +60,7 @@ public class ChatRoomController {
 
 	}
 
-	@DeleteMapping("/chat_room/delete/{idChat}")
+	@DeleteMapping("/chatRoom/delete/{idChat}")
 	public ResponseEntity<Object> deleteChatRoom(@PathVariable Long idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/delete/" + idChat + " (DELETE)");
@@ -70,7 +70,7 @@ public class ChatRoomController {
 		
 	}
 
-	@PatchMapping("/chat_room/update")
+	@PatchMapping("/chatRoom/update")
 	public ResponseEntity<String> updateChatRoom(@RequestBody ChatRoom chatRoomUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/update (PATCH)");

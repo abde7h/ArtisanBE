@@ -52,7 +52,7 @@ public class CategoryController {
 	@PostMapping("/category/add")
 	public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
 		
-		log.info("Request a http://localhost:PORT/1.0.0/user/add (POST)");
+		log.info("Request a http://localhost:PORT/1.0.0/add (POST)");
 		Category savedCategory = categoryService.saveCategory(category);
 		return (savedCategory != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedCategory)
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

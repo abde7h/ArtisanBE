@@ -73,7 +73,7 @@ public class ProductService implements IProductService{
 			productToUpdate.setPrice(productUpdated.getPrice());
 			productToUpdate.setCategory_id(productUpdated.getCategory_id());
 			productToUpdate.setCreation_date(productUpdated.getCreation_date());
-			productToUpdate.setSold(productUpdated.isSold());
+			productToUpdate.setSold(productUpdated.getSold());
 			productToUpdate.setUser_id(productUpdated.getUser_id());
 			productToUpdate.setBuy_date(productUpdated.getBuy_date());
 			productToUpdate.setVisible(productUpdated.getVisible());

@@ -1,13 +1,14 @@
 package com.Artisan.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+
 
 import com.Artisan.entities.Likes;
 import com.Artisan.repository.LikesRepository;
 import com.Artisan.services.interfaces.ILikesService;
+
 
 @Service
 
@@ -27,53 +28,30 @@ public class LikesService implements ILikesService{
 		return likesRepository.findAll();
 
 	}
+	
+	@Override
+	public List<Likes> findLikesByProduct_Id(Integer productId) {
+        return likesRepository.findByProduct_id(productId);
+    }
+		
+	
 
 	@Override
-	public Optional<Likes> findLikesById(Long id) {
+	public List<Likes> findLikesByUser_IdAndProduct_Id(Integer userId, Integer productId) {
 		
-		return likesRepository.findById(id);
-		
+		return likesRepository.findByUser_idAndProduct_id(userId, productId);
 	}
 
 	@Override
 	public Likes saveLikes(Likes likes) {
-		
+
 		likesRepository.save(likes);
 		return likes;
-		
+
 	}
 
 	@Override
-	public String deleteLikes(Long id) {
-		
-		if (likesRepository.findById(id).isPresent()) {
-			
-			likesRepository.deleteById(id);
-			return "Like eliminado correctamente.";
-			
-		}
-		
-		return "Error! No existen likes";
-		
+	public void deleteLikes(Integer userId, Integer productId) {
+		likesRepository.deleteByUser_idAndProduct_id(userId, productId);
 	}
-
-	@Override
-	public String updateLikes(Likes likesUpdated) {
-		
-		int num = likesUpdated.getProduct_id();
-		
-		if (likesRepository.findById((long) num).isPresent()) {
-			
-			Likes likesToUpdate = new Likes();
-			likesToUpdate.setUser_id(likesUpdated.getUser_id());
-			likesToUpdate.setProduct_id(likesUpdated.getProduct_id());
-			likesRepository.save(likesToUpdate);
-			return "likes modificado";
-			
-		}
-		
-		return "Error al modificar likes";
-		
-	}
-
 }

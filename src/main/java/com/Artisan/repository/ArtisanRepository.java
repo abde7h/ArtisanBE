@@ -7,5 +7,5 @@ import com.Artisan.entities.User;
 
 
 public interface ArtisanRepository extends JpaRepository<Artisan, Long> {
-	Optional<User> findByEmail(String email);
+	Optional<Artisan> findByEmail(String email);
 }

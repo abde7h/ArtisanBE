@@ -18,8 +18,8 @@ public class ChatRoom {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "room_id")
-	int room_id;
+	Integer room_id;
 	@Column(name = "product_id")
-	int product_id;
+	Integer product_id;
 	
 }

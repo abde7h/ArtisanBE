@@ -73,7 +73,7 @@ public class ArtisanController {
 	public ResponseEntity<String> updateArtisan(@RequestBody Artisan artisanUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/update (PATCH)");
-		Long artisanId = (long) artisanUpdated.getUser_id();
+		Long artisanId = (long) artisanUpdated.getArtisan_id();
 		Optional<Artisan> existingArtisan = artisanService.findArtisanById(artisanId);
 		
 		if (existingArtisan.isPresent()) {

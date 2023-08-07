@@ -29,7 +29,7 @@ public class ChatRoomService implements IChatRoomService{
 	}
 
 	@Override
-	public Optional<ChatRoom> findChatRoomById(Long id) {
+	public Optional<ChatRoom> findChatRoomById(Integer id) {
 		
 		return chatRoomRepository.findById(id);
 		
@@ -44,7 +44,8 @@ public class ChatRoomService implements IChatRoomService{
 	}
 
 	@Override
-	public String deleteChatRoom(Long id) {
+	public String deleteChatRoom(Integer id) {
+		
 		if (chatRoomRepository.findById(id).isPresent()) {
 			
 			chatRoomRepository.deleteById(id);
@@ -61,7 +62,7 @@ public class ChatRoomService implements IChatRoomService{
 		
 		int num = chatRoomUpdated.getProduct_id();
 		
-		if (chatRoomRepository.findById((long) num).isPresent()) {
+		if (chatRoomRepository.findById((Integer) num).isPresent()) {
 			
 			ChatRoom chatRoomToUpdate = new ChatRoom();
 			chatRoomToUpdate.setRoom_id(chatRoomUpdated.getRoom_id());

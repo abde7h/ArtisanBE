@@ -8,9 +8,9 @@ import com.Artisan.entities.Product;
 public interface IProductService {
 	
 	List<Product> findAllProducts();
-	Optional<Product> findProductById(Long id);
+	Optional<Product> findProductById(Integer id);
 	Product saveProduct(Product product);
-	String deleteProduct(Long id);
+	String deleteProduct(Integer id);
 	String updateProduct(Product productUpdated);
 
 }

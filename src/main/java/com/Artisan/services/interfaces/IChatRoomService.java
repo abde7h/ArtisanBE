@@ -8,9 +8,9 @@ import com.Artisan.entities.ChatRoom;
 public interface IChatRoomService {
 	
 	List<ChatRoom> findAllChatRooms();
-	Optional<ChatRoom> findChatRoomById(Long id);
+	Optional<ChatRoom> findChatRoomById(Integer id);
 	ChatRoom saveChatRoom(ChatRoom chatRoom);
-	String deleteChatRoom(Long id);
+	String deleteChatRoom(Integer id);
 	String updateChatRoom(ChatRoom chatRoomUpdated);
 
 }

@@ -9,7 +9,7 @@ import com.Artisan.entities.Followers;
 
 import jakarta.transaction.Transactional;
 
-public interface FollowersRepository extends JpaRepository<Followers, Long> {
+public interface FollowersRepository extends JpaRepository<Followers, Integer> {
 
     @Transactional
     @Modifying
@@ -21,6 +21,7 @@ public interface FollowersRepository extends JpaRepository<Followers, Long> {
     
     @Query("SELECT f FROM Followers f WHERE f.follower_id = :followerId")
     List<Followers> findByFollower_id(Integer followerId);
+    
 }
 
 

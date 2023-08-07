@@ -4,4 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.Artisan.entities.ChatRoom;
 
 
-public interface ChatRoomRepository extends JpaRepository<ChatRoom, Long> {}
+public interface ChatRoomRepository extends JpaRepository<ChatRoom, Integer> {}

@@ -29,7 +29,7 @@ public class ChatMessageService implements IChatMessageService {
 	}
 
 	@Override
-	public Optional<ChatMessage> findChatMessageById(Long id) {
+	public Optional<ChatMessage> findChatMessageById(Integer id) {
 		
 		return chatMessageRepository.findById(id);
 		
@@ -44,11 +44,13 @@ public class ChatMessageService implements IChatMessageService {
 	}
 
 	@Override
-	public String deleteChatMessage(Long id) {
+	public String deleteChatMessage(Integer id) {
 		
 		if (chatMessageRepository.findById(id).isPresent()) {
+			
 			chatMessageRepository.deleteById(id);
 			return "Chat_Room eliminado correctamente.";
+			
 		}
 		
 		return "Error! El Chat Message no existe";
@@ -60,7 +62,7 @@ public class ChatMessageService implements IChatMessageService {
 		
 		int num = chatMessageUpdated.getMessage_id();
 		
-		if (chatMessageRepository.findById((long) num).isPresent()) {
+		if (chatMessageRepository.findById((Integer) num).isPresent()) {
 			
 			ChatMessage chatMessageToUpdate = new ChatMessage();
 			chatMessageToUpdate.setMessage_id(chatMessageUpdated.getMessage_id());

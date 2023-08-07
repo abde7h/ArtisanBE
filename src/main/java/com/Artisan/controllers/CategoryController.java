@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class CategoryController {
 
 	}
 
-	@RequestMapping("/category")
+	@GetMapping("/category")
 	public List<Category> getCategory() {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user (GET)");
@@ -40,8 +41,8 @@ public class CategoryController {
 
 	}
 
-	@RequestMapping("/category/{idCategory}")
-	public Optional<Category> findCategoryById(@PathVariable Long idCategory) {
+	@GetMapping("/category/{idCategory}")
+	public Optional<Category> findCategoryById(@PathVariable Integer idCategory) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/category/" + idCategory + " (GET)");
 		Optional<Category> category = categoryService.findCategoryById(idCategory);
@@ -60,7 +61,7 @@ public class CategoryController {
 	}
 
 	@DeleteMapping("/category/delete/{idCategory}")
-	public ResponseEntity<Object> deleteUser(@PathVariable Long idCategory) {
+	public ResponseEntity<Object> deleteUser(@PathVariable Integer idCategory) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user/delete/" + idCategory + " (DELETE)");
 		String result = categoryService.deleteCategory(idCategory);	
@@ -73,7 +74,7 @@ public class CategoryController {
 	public ResponseEntity<String> updateCategory(@RequestBody Category categoryUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user/update (PATCH)");
-		Long categoryId = (long) categoryUpdated.getId();
+		Integer categoryId = categoryUpdated.getId();
 		Optional<Category> existingCategory = categoryService.findCategoryById(categoryId);
 		
 		if (existingCategory.isPresent()) {

@@ -8,9 +8,9 @@ import com.Artisan.entities.Category;
 public interface ICategoryService {
 	
 	List<Category> findAllCategories();
-	Optional<Category> findCategoryById(Long id);
+	Optional<Category> findCategoryById(Integer id);
 	Category saveCategory(Category category);
-	String deleteCategory(Long id);
+	String deleteCategory(Integer id);
 	String updateCategory(Category categoryUpdated);
 	
 }

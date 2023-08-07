@@ -11,7 +11,7 @@ import com.Artisan.entities.Likes;
 import jakarta.transaction.Transactional;
 
 
-public interface LikesRepository extends JpaRepository<Likes, Long> {
+public interface LikesRepository extends JpaRepository<Likes, Integer> {
 	
     @Transactional
     @Modifying
@@ -23,5 +23,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
     
     @Query("SELECT l FROM Likes l WHERE  l.product_id = :productId")
     List<Likes> findByProduct_id(Integer productId);
+    
 }
 

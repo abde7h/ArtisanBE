@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class ProductController {
 
 	}
 
-	@RequestMapping("/product")
+	@GetMapping("/product")
 	public List<Product> getProduct() {
 
 		log.info("Request a http://localhost:PORT/1.0.0/product (GET)");
@@ -40,8 +41,8 @@ public class ProductController {
 
 	}
 
-	@RequestMapping("/product/{idProduct}")
-	public Optional<Product> findProductById(@PathVariable Long idProduct) {
+	@GetMapping("/product/{idProduct}")
+	public Optional<Product> findProductById(@PathVariable Integer idProduct) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/product/" + idProduct + " (GET)");
 		Optional<Product> product = productService.findProductById(idProduct);
@@ -60,7 +61,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/product/delete/{idProduct}")
-	public ResponseEntity<Object> deleteProduct(@PathVariable Long idProduct) {
+	public ResponseEntity<Object> deleteProduct(@PathVariable Integer idProduct) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/product/delete/" + idProduct + " (DELETE)");
 		String result = productService.deleteProduct(idProduct);
@@ -74,7 +75,7 @@ public class ProductController {
 	public ResponseEntity<String> updateProduct(@RequestBody Product productUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/product/update (PATCH)");
-		Long productId = (long) productUpdated.getProduct_id();
+		Integer productId = productUpdated.getProduct_id();
 		Optional<Product> existingProduct = productService.findProductById(productId);
 		
 		if (existingProduct.isPresent()) {

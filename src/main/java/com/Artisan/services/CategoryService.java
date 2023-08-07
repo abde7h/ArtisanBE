@@ -29,7 +29,7 @@ public class CategoryService implements ICategoryService{
 	}
 	
 	@Override
-	public Optional<Category> findCategoryById(Long id) {
+	public Optional<Category> findCategoryById(Integer id) {
 		
 		return categoryRepository.findById(id);
 		
@@ -44,7 +44,7 @@ public class CategoryService implements ICategoryService{
 	}
 	
 	@Override
-	public String deleteCategory(Long id) {
+	public String deleteCategory(Integer id) {
 		
 		if (categoryRepository.findById(id).isPresent()) {
 			
@@ -62,7 +62,7 @@ public class CategoryService implements ICategoryService{
 		
 		int num = categoryUpdated.getId();
 		
-		if (categoryRepository.findById((long) num).isPresent()) {
+		if (categoryRepository.findById((Integer) num).isPresent()) {
 			
 			Category categoryToUpdate = new Category();
 			categoryToUpdate.setId(categoryUpdated.getId());

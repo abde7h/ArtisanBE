@@ -14,6 +14,7 @@ import lombok.Data;
 @Table(name = "Product")
 
 public class Product {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "product_id")
@@ -40,4 +41,5 @@ public class Product {
 	String buy_date;
 	@Column(name = "visible")
 	Boolean visible;
+	
 }

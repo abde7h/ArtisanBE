@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,20 +31,20 @@ public class FollowersController {
 
 	}
 
-	@RequestMapping("/followers")
+	@GetMapping("/followers")
 	public List<Followers> getFollowers() {
 		log.info("Request a http://localhost:PORT/1.0.0/followers (GET)");
 		return followersService.findAllFollowers();
 	}
 
-	@RequestMapping("/followers/{followerId}")
+	@GetMapping("/followers/{followerId}")
 	public ResponseEntity<List<Followers>> getFollowersByFollower_Id(@PathVariable Integer followerId) {
 
 		List<Followers> followers = followersService.findFollowersByFollower_Id(followerId);
 		return (followers.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(followers);
 	}
 
-	@RequestMapping("/followers/{followerId}/{followingId}")
+	@GetMapping("/followers/{followerId}/{followingId}")
 	public ResponseEntity<List<Followers>> getFollowerByFollowerIdAndFollowingId(@PathVariable Integer followerId,
 			@PathVariable Integer followingId) {
 

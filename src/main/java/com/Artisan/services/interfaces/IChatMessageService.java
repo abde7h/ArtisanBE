@@ -8,9 +8,9 @@ import com.Artisan.entities.ChatMessage;
 public interface IChatMessageService {
 	
 	List<ChatMessage> findAllChatMessages();
-	Optional<ChatMessage> findChatMessageById(Long id);
+	Optional<ChatMessage> findChatMessageById(Integer id);
 	ChatMessage saveChatMessage(ChatMessage chatMessage);
-	String deleteChatMessage(Long id);
+	String deleteChatMessage(Integer id);
 	String updateChatMessage(ChatMessage chatMessageUpdated);
 
 }

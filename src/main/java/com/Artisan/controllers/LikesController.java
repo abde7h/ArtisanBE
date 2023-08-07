@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,7 +32,7 @@ public class LikesController {
 
 	}
 
-	@RequestMapping("/likes")
+	@GetMapping("/likes")
 	public List<Likes> getLikes() {
 
 		log.info("Request a http://localhost:PORT/1.0.0/likes (GET)");
@@ -41,7 +41,7 @@ public class LikesController {
 	}
 		 
 
-	@RequestMapping("/likes/{productId}")
+	@GetMapping("/likes/{productId}")
    public ResponseEntity<List<Likes>> getLikesByProductId(@PathVariable Integer productId) {
 		
         List<Likes> likes = likesService.findLikesByProduct_Id(productId);
@@ -50,7 +50,7 @@ public class LikesController {
         }
   
 
-	@RequestMapping("/likes/{userId}/{productId}")
+	@GetMapping("/likes/{userId}/{productId}")
 	public ResponseEntity<List<Likes>> getLikesByUserIdAndProductId(@PathVariable Integer userId,
 			@PathVariable Integer productId) {
 

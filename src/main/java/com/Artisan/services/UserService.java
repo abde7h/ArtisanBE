@@ -3,25 +3,26 @@ package com.Artisan.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.dao.DataIntegrityViolationException;
-
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.Artisan.entities.User;
+import com.Artisan.helpers.EmailValidatorUser;
 import com.Artisan.repository.UserRepository;
 import com.Artisan.services.interfaces.IUserService;
 
 @Service
-
 public class UserService implements IUserService {
 
 	UserRepository userRepository;
+	EmailValidatorUser emailValidator = new EmailValidatorUser(this);
 
 	public UserService(UserRepository userRepository) {
-
 		this.userRepository = userRepository;
-
 	}
+	 
+	  
 
 	@Override
 	public List<User> findAllUsers() {
@@ -31,28 +32,39 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public Optional<User> findUserById(Long id) {
+	public Optional<User> findUserById(Integer id) {
 		
 		return userRepository.findById(id);
 		
 	}
-
+	
 	@Override
-	public User saveUser(User user) throws DataIntegrityViolationException {
+	public Optional<User> findUserByEmail(String email) {
 		
-		if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-			
-			throw new DataIntegrityViolationException("El correo electrónico ya está en uso.");
-			
-		}
-		
-		userRepository.save(user);
-		return user;
+		return userRepository.findByEmail(email);
 		
 	}
 
 	@Override
-	public String deleteUser(Long id) {
+	public ResponseEntity<Object> saveUser(User userAdd) {
+		
+		if (emailValidator.checkValidAndExistEmail(userAdd.getEmail())) {
+			
+			userRepository.save(userAdd);
+			return ResponseEntity.ok(userAdd);
+			
+		}else {
+			
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya existe o no es válido");
+			
+		}
+		
+	}
+
+	
+
+	@Override
+	public String deleteUser(Integer id) {
 		
 		if (userRepository.findById(id).isPresent()) {
 			
@@ -60,35 +72,38 @@ public class UserService implements IUserService {
 			return "User eliminado correctamente.";
 			
 		}
-		
-		return "Error! El customer no existe";
+
+		return "Error! El User no existe";
 		
 	}
 
 	@Override
-	public String updateUser(User userUpdated) {
+	public ResponseEntity<Object> updateUser(User userUpdated) {
 		
-		int num = userUpdated.getUser_id();
-		
-		if (userRepository.findById((long) num).isPresent()) {
+		Optional<User> optionalUser = null;
+		if (userUpdated.getUser_id() != null) {
 			
-			User userToUpdate = new User();
-			userToUpdate.setUser_id(userUpdated.getUser_id());
-			userToUpdate.setName(userUpdated.getName());
-			userToUpdate.setEmail(userUpdated.getEmail());
-			userToUpdate.setPassword(userUpdated.getPassword());
-			userToUpdate.setName(userUpdated.getName());
-			userToUpdate.setSurnames(userUpdated.getSurnames());
-			userToUpdate.setTelephone(userUpdated.getTelephone());
-			userToUpdate.setDescription(userUpdated.getDescription());
-			userToUpdate.setImage(userUpdated.getImage());
-			userRepository.save(userToUpdate);
-			return "User modificado";
+			optionalUser = userRepository.findById(userUpdated.getUser_id());
 			
+			if(userUpdated.getEmail().equals(optionalUser.get().getEmail())) {
+				
+				userRepository.save(userUpdated);
+				return ResponseEntity.ok(userUpdated);
+				
+			} else if (optionalUser.isPresent() && emailValidator.checkValidAndExistEmail(userUpdated.getEmail())) {
+				
+				userRepository.save(userUpdated);
+				return ResponseEntity.ok(userUpdated);
+				
+			}
+			else {
+				
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya existe o no es válido");
+				
+			}
 		}
 		
-		return "Error al modificar el User";
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No existe el elemento o no has pasado el id");
 		
 	}
-
 }

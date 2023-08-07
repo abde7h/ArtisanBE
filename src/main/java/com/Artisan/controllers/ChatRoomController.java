@@ -42,7 +42,7 @@ public class ChatRoomController {
 	}
 
 	@GetMapping("/chatRoom/{idChat}")
-	public Optional<ChatRoom> findChatRoomById(@PathVariable Long idChat) {
+	public Optional<ChatRoom> findChatRoomById(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/" + idChat + " (GET)");
 		Optional<ChatRoom> chatRoom = chatRoomService.findChatRoomById(idChat);
@@ -61,7 +61,7 @@ public class ChatRoomController {
 	}
 
 	@DeleteMapping("/chatRoom/delete/{idChat}")
-	public ResponseEntity<Object> deleteChatRoom(@PathVariable Long idChat) {
+	public ResponseEntity<Object> deleteChatRoom(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/delete/" + idChat + " (DELETE)");
 		String result = chatRoomService.deleteChatRoom(idChat);
@@ -74,7 +74,7 @@ public class ChatRoomController {
 	public ResponseEntity<String> updateChatRoom(@RequestBody ChatRoom chatRoomUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/update (PATCH)");
-		Long roomId = (long) chatRoomUpdated.getRoom_id();
+		Integer roomId = chatRoomUpdated.getRoom_id();
 		Optional<ChatRoom> existingProduct = chatRoomService.findChatRoomById(roomId);
 
 		if (existingProduct.isPresent()) {

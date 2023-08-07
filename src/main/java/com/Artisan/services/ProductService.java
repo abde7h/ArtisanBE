@@ -29,7 +29,7 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public Optional<Product> findProductById(Long id) {
+	public Optional<Product> findProductById(Integer id) {
 		
 		return productRepository.findById(id);
 		
@@ -44,7 +44,7 @@ public class ProductService implements IProductService{
 	}
 
 	@Override
-	public String deleteProduct(Long id) {
+	public String deleteProduct(Integer id) {
 		
 		if (productRepository.findById(id).isPresent()) {
 			
@@ -62,7 +62,7 @@ public class ProductService implements IProductService{
 		
 		int num = productUpdated.getProduct_id();
 		
-		if (productRepository.findById((long) num).isPresent()) {
+		if (productRepository.findById((Integer) num).isPresent()) {
 			
 			Product productToUpdate = new Product();
 			productToUpdate.setProduct_id(productUpdated.getProduct_id());

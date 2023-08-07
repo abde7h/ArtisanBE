@@ -21,18 +21,23 @@ public class FollowersService implements IFollowersService {
 
 	@Override
 	public List<Followers> findAllFollowers() {
+		
 		return followersRepository.findAll();
+		
 	}
 	
 	@Override
 	public List<Followers> findFollowersByFollower_Id(Integer followerId) {
+		
         return followersRepository.findByFollower_id(followerId);
+        
     }
 
 	@Override
 	public List<Followers> findFollowerByFollower_IdAndFollowing_Id(Integer followerId, Integer followingId) {
 		
 		return followersRepository.findByFollower_idAndFollowing_id(followerId, followingId);
+		
 	}
 
 	@Override
@@ -45,6 +50,8 @@ public class FollowersService implements IFollowersService {
 
 	@Override
 	public void deleteFollower(Integer followerId, Integer followingId) {
+		
 		followersRepository.deleteByFollower_idAndFollowing_id(followerId, followingId);
+		
 	}
 }

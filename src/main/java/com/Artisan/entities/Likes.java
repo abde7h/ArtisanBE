@@ -13,6 +13,7 @@ import lombok.Data;
 @Entity
 @Table(name = "Likes")
 public class Likes {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -21,4 +22,5 @@ public class Likes {
 	Integer user_id;
 	@Column(name = "product_id")
 	Integer product_id;
+	
 }

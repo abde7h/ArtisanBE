@@ -31,7 +31,9 @@ public class LikesService implements ILikesService{
 	
 	@Override
 	public List<Likes> findLikesByProduct_Id(Integer productId) {
+		
         return likesRepository.findByProduct_id(productId);
+        
     }
 		
 	
@@ -40,6 +42,7 @@ public class LikesService implements ILikesService{
 	public List<Likes> findLikesByUser_IdAndProduct_Id(Integer userId, Integer productId) {
 		
 		return likesRepository.findByUser_idAndProduct_id(userId, productId);
+		
 	}
 
 	@Override
@@ -52,6 +55,8 @@ public class LikesService implements ILikesService{
 
 	@Override
 	public void deleteLikes(Integer userId, Integer productId) {
+		
 		likesRepository.deleteByUser_idAndProduct_id(userId, productId);
+		
 	}
 }

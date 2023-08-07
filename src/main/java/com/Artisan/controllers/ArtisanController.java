@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +33,7 @@ public class ArtisanController {
 
 	}
 
-	@RequestMapping("/artisan")
+	@GetMapping("/artisan")
 	public List<Artisan> getArtisan() {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
@@ -40,27 +41,36 @@ public class ArtisanController {
 
 	}
 
-	@RequestMapping("/artisan/{idArtisan}")
-	public Optional<Artisan> findArtisanById(@PathVariable Long idArtisan) {
+	@GetMapping("/artisan/{idArtisan}")
+	public Optional<Artisan> findArtisanById(@PathVariable Integer idArtisan) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + idArtisan + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanById(idArtisan);
 		return artisan;
 
 	}
+	
+	@GetMapping("/artisan/email/{email}")
+	public Optional<Artisan> findArtisanByEmail(@PathVariable String email) {
+		
+		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + email + " (GET)");
+		Optional<Artisan> artisan = artisanService.findArtisanByEmail(email);
+		return artisan;
+		
+	}
 
 	@PostMapping("/artisan/add")
-	public ResponseEntity<Artisan> saveArtisan(@RequestBody Artisan artisan) {
+	public ResponseEntity<ResponseEntity<Object>> saveArtisan(@RequestBody Artisan artisan) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/add (POST)");
-		Artisan savedArtisan = artisanService.saveArtisan(artisan);
+		ResponseEntity<Object> savedArtisan = artisanService.saveArtisan(artisan);
 		return (savedArtisan != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedArtisan)
 				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
 				
 	}
 
 	@DeleteMapping("/artisan/delete/{idArtisan}")
-	public ResponseEntity<Object> deleteUser(@PathVariable Long idArtisan) {
+	public ResponseEntity<Object> deleteUser(@PathVariable Integer idArtisan) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/delete/" + idArtisan + " (DELETE)");
 		String result = artisanService.deleteArtisan(idArtisan);
@@ -70,22 +80,11 @@ public class ArtisanController {
 	}
 
 	@PatchMapping("/artisan/update")
-	public ResponseEntity<String> updateArtisan(@RequestBody Artisan artisanUpdated) {
+	public ResponseEntity<Object> updateArtisan(@RequestBody Optional<Artisan> artisanUpdated) {
 		
-		log.info("Request a http://localhost:PORT/1.0.0/artisan/update (PATCH)");
-		Long artisanId = (long) artisanUpdated.getArtisan_id();
-		Optional<Artisan> existingArtisan = artisanService.findArtisanById(artisanId);
+		return (artisanUpdated.isPresent()) ? artisanService.updateArtisan(artisanUpdated.get())
+				:ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No existe User");
 		
-		if (existingArtisan.isPresent()) {
-			
-			artisanService.updateArtisan(artisanUpdated);
-			return ResponseEntity.ok("Artisan modificado");
-			
-		} else {
-			
-			return ResponseEntity.notFound().build();
-			
-		}
 	}
 
 }

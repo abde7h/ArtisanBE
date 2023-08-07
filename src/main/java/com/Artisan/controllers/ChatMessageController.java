@@ -42,7 +42,7 @@ public class ChatMessageController {
 	}
 
 	@GetMapping("/chatMessage/{idChat}")
-	public Optional<ChatMessage> findChatMessageById(@PathVariable Long idChat) {
+	public Optional<ChatMessage> findChatMessageById(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatMessage/" + idChat + " (GET)");
 		Optional<ChatMessage> chatMessage = chatMessageService.findChatMessageById(idChat);
@@ -61,7 +61,7 @@ public class ChatMessageController {
 	}
 
 	@DeleteMapping("/chatMessage/delete/{idChat}")
-	public ResponseEntity<Object> deleteChatMessage(@PathVariable Long idChat) {
+	public ResponseEntity<Object> deleteChatMessage(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatMessage/delete/" + idChat + " (DELETE)");
 		String result = chatMessageService.deleteChatMessage(idChat);
@@ -74,7 +74,7 @@ public class ChatMessageController {
 	public ResponseEntity<String> updateChatMessage(@RequestBody ChatMessage chatMessageUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatMessage/update (PATCH)");
-		Long messageId = (long) chatMessageUpdated.getMessage_id();
+		Integer messageId = chatMessageUpdated.getMessage_id();
 		Optional<ChatMessage> existingProduct = chatMessageService.findChatMessageById(messageId);
 
 		if (existingProduct.isPresent()) {

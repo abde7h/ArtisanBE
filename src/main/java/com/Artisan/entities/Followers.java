@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Followers")
 
 public class Followers {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
@@ -25,4 +26,5 @@ public class Followers {
 	Integer follower_id;
 	@Column(name = "following_id")
 	Integer following_id;
+	
 }

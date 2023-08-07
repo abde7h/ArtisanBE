@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Artisan.entities.Artisan;
+import com.Artisan.entities.DTOs.ArtisanDTO;
 import com.Artisan.services.ArtisanService;
 
 import lombok.extern.java.Log;
@@ -38,6 +39,14 @@ public class ArtisanController {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
 		return artisanService.findAllArtisans();
+
+	}
+	//DTO
+	@GetMapping("/artisanDTO")
+	public List<ArtisanDTO> getArtisanDTO() {
+
+		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
+		return artisanService.findAllArtisansDTO();
 
 	}
 

@@ -1,14 +1,17 @@
 package com.Artisan.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
 import com.Artisan.entities.Artisan;
+import com.Artisan.entities.DTOs.ArtisanDTO;
 import com.Artisan.helpers.EmailValidatorArtisan;
 import com.Artisan.repository.ArtisanRepository;
 import com.Artisan.services.interfaces.IArtisanService;
@@ -106,6 +109,20 @@ public class ArtisanService implements IArtisanService{
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no existe el elemento o no has pasado id");
 		
+	}
+	
+	public List<ArtisanDTO> findAllArtisansDTO(){
+		 List<Artisan> artisanList = artisanRepository.findAll();
+		    ModelMapper modelMapper = new ModelMapper();
+		    List<ArtisanDTO> artisanDTOList = new ArrayList<>();
+
+		    artisanList.forEach(artisanElement -> {
+		        ArtisanDTO artisanDto = modelMapper.map(artisanElement, ArtisanDTO.class);
+		        System.out.println(artisanDto.toString());
+		        artisanDTOList.add(artisanDto); 
+		    });
+
+		    return artisanDTOList;
 	}
 
 }

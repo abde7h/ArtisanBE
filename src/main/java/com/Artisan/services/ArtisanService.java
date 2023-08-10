@@ -146,6 +146,8 @@ public class ArtisanService implements IArtisanService {
 		    if(artisan.isPresent()) {
 		    	
 		    	ArtisanProfileDTO artisanProfileDTO = new ArtisanProfileDTO();
+		    	artisanProfileDTO.setName(artisan.get().getName());    
+		    	artisanProfileDTO.setSurnames(artisan.get().getSurnames());
 		    	artisanProfileDTO.setUsername(artisan.get().getUsername());    
 		    	artisanProfileDTO.setDescription(artisan.get().getDescription());
 		    	artisanProfileDTO.setImage(artisan.get().getImage());

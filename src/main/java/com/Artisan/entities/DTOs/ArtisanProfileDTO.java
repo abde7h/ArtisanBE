@@ -10,6 +10,8 @@ import lombok.Data;
 @Data
 public class ArtisanProfileDTO {
 	
+	String name;
+	String surnames;
 	String username;
 	String description;
 	String image;

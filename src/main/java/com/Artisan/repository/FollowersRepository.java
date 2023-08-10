@@ -5,11 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+
 import com.Artisan.entities.Followers;
 
 import jakarta.transaction.Transactional;
 
 public interface FollowersRepository extends JpaRepository<Followers, Integer> {
+	
+ 
 
     @Transactional
     @Modifying
@@ -21,6 +24,7 @@ public interface FollowersRepository extends JpaRepository<Followers, Integer> {
     
     @Query("SELECT f FROM Followers f WHERE f.follower_id = :followerId")
     List<Followers> findByFollower_id(Integer followerId);
+    
     
 }
 

@@ -12,6 +12,7 @@ public interface IArtisanService {
 	List<Artisan> findAllArtisans();
 	Optional<Artisan> findArtisanById(Integer id);
 	Optional<Artisan> findArtisanByEmail(String email);
+	Optional<Artisan> findArtisanByUsername(String username);
 	ResponseEntity<Object> saveArtisan(Artisan artisanAdd);
 	String deleteArtisan(Integer id);
 	ResponseEntity<Object> updateArtisan(Artisan artisanUpdated);

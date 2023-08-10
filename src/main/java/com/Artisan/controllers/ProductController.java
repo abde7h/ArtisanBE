@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Artisan.entities.Product;
+import com.Artisan.entities.DTOs.FeedDTO;
+import com.Artisan.entities.DTOs.ProductProfileDTO;
 import com.Artisan.services.ProductService;
 
 import lombok.extern.java.Log;
@@ -43,7 +45,7 @@ public class ProductController {
 
 	@GetMapping("/product/{idProduct}")
 	public Optional<Product> findProductById(@PathVariable Integer idProduct) {
-		
+
 		log.info("Request a http://localhost:PORT/1.0.0/product/" + idProduct + " (GET)");
 		Optional<Product> product = productService.findProductById(idProduct);
 		return product;
@@ -52,7 +54,7 @@ public class ProductController {
 
 	@PostMapping("/product/add")
 	public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
-		
+
 		log.info("Request a http://localhost:PORT/1.0.0/product/add (POST)");
 		Product savedProduct = productService.saveProduct(product);
 		return (savedProduct != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedProduct)
@@ -62,10 +64,10 @@ public class ProductController {
 
 	@DeleteMapping("/product/delete/{idProduct}")
 	public ResponseEntity<Object> deleteProduct(@PathVariable Integer idProduct) {
-		
+
 		log.info("Request a http://localhost:PORT/1.0.0/product/delete/" + idProduct + " (DELETE)");
 		String result = productService.deleteProduct(idProduct);
-		
+
 		return (result.equals("Producto eliminado correctamente.")) ? ResponseEntity.noContent().build()
 				: ResponseEntity.notFound().build();
 
@@ -73,21 +75,36 @@ public class ProductController {
 
 	@PatchMapping("/product/update")
 	public ResponseEntity<String> updateProduct(@RequestBody Product productUpdated) {
-		
+
 		log.info("Request a http://localhost:PORT/1.0.0/product/update (PATCH)");
 		Integer productId = productUpdated.getProduct_id();
 		Optional<Product> existingProduct = productService.findProductById(productId);
-		
+
 		if (existingProduct.isPresent()) {
-			
+
 			productService.updateProduct(productUpdated);
 			return ResponseEntity.ok("Producto modificado");
-			
+
 		} else {
-			
+
 			return ResponseEntity.notFound().build();
-			
+
 		}
+	}
+
+	// DTO
+	@GetMapping("/productProfile/{productId}")
+	public ProductProfileDTO profile(@PathVariable Integer productId) {
+
+		return productService.productProfileDTO(productId);
+
+	}
+
+	@GetMapping("/feed")
+	public List<FeedDTO> feed() {
+
+		return productService.feedDTO();
+
 	}
 
 }

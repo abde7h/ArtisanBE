@@ -98,7 +98,8 @@ public class ProductService implements IProductService {
 		return "Error al modificar el producto";
 
 	}
-
+	
+	//DTO
 	public ProductProfileDTO productProfileDTO(Integer productId) {
 		Optional<Product> product = productRepository.findById(productId);
 
@@ -119,6 +120,7 @@ public class ProductService implements IProductService {
 		return null;
 	}
 
+	//DTO
 	public List<FeedDTO> feedDTO() {
 		List<Product> productList = productRepository.findAll();
 		return productList.stream().map(product -> {
@@ -128,7 +130,7 @@ public class ProductService implements IProductService {
 			Optional<Artisan> artisan = artisanRepository.findById(product.getArtisan_id());
 			artisan.ifPresent(value -> {
 				ArtisanDTONameSurname artisanDTONameSurname = new ArtisanDTONameSurname();
-				artisanDTONameSurname.setName(value.getName());
+				artisanDTONameSurname.setUsername(value.getUsername());
 				artisanDTONameSurname.setImage(value.getImage());
 				feedDTO.setArtisan(artisanDTONameSurname);
 			});

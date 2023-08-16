@@ -36,7 +36,7 @@ public class ArtisanController {
 
 	}
 
-	@GetMapping("/artisan")
+	@GetMapping("/artisan") // Trae una lista con todos los elementos llamados Artisan
 	public List<Artisan> getArtisan() {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
@@ -53,21 +53,21 @@ public class ArtisanController {
 
 	}
 
-	@GetMapping("/artisan/{idArtisan}")
+	@GetMapping("/artisan/{idArtisan}") //Trae los elementos Artisan *Input ID*
 	public Optional<Artisan> findArtisanById(@PathVariable Integer idArtisan) {
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + idArtisan + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanById(idArtisan);
 		return artisan;
 	}
 
-	@GetMapping("/artisan/email/{email}")
+	@GetMapping("/artisan/email/{email}") //Trae los elementos Artisan *Input Email*
 	public Optional<Artisan> findArtisanByEmail(@PathVariable String email) {
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + email + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanByEmail(email);
 		return artisan;
 	}
 
-	@PostMapping("/artisan/add")
+	@PostMapping("/artisan/add") //Añade un nuevo elemento Artisan
 	public ResponseEntity<ResponseEntity<Object>> saveArtisan(@RequestBody Artisan artisan) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/add (POST)");
@@ -77,7 +77,7 @@ public class ArtisanController {
 
 	}
 
-	@DeleteMapping("/artisan/delete/{idArtisan}")
+	@DeleteMapping("/artisan/delete/{idArtisan}") //Borra un elemento Artisan *Input ID*
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer idArtisan) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/delete/" + idArtisan + " (DELETE)");
@@ -87,7 +87,7 @@ public class ArtisanController {
 
 	}
 
-	@PatchMapping("/artisan/update")
+	@PatchMapping("/artisan/update") // Actualiza un determinado elemento Artisan
 	public ResponseEntity<Object> updateArtisan(@RequestBody Optional<Artisan> artisanUpdated) {
 
 		return (artisanUpdated.isPresent()) ? artisanService.updateArtisan(artisanUpdated.get())
@@ -96,7 +96,7 @@ public class ArtisanController {
 	}
 	
 	//DTO
-	@GetMapping("/artisanProfile/{username}")
+	@GetMapping("/artisanProfile/{username}") //Trae el elemento Artisan con su nombre apellidos username descripcion contador de followers y productos y la lista de productos publicados *Input Username* 
 	public ArtisanProfileDTO profile(@PathVariable String username) {
 		
 		return artisanService.artisanProfileDTO(username);

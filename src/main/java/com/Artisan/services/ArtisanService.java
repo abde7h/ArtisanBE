@@ -125,13 +125,14 @@ public class ArtisanService implements IArtisanService {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("no existe el elemento o no has pasado id");
 
 	}
-
+	
+	//DTO
 	public List<ArtisanDTO> findAllArtisansDTO() {
-		List<Artisan> artisanList = artisanRepository.findAll();
-		ModelMapper modelMapper = new ModelMapper();
+		List<Artisan> artisanList = artisanRepository.findAll(); //Buscamos todos los artesanos
+		ModelMapper modelMapper = new ModelMapper(); 
 		List<ArtisanDTO> artisanDTOList = new ArrayList<>();
 
-		artisanList.forEach(artisanElement -> {
+		artisanList.forEach(artisanElement -> { //Mapeamos los resultados en el nuevo array creado
 			ArtisanDTO artisanDto = modelMapper.map(artisanElement, ArtisanDTO.class);
 			System.out.println(artisanDto.toString());
 			artisanDTOList.add(artisanDto);
@@ -140,21 +141,23 @@ public class ArtisanService implements IArtisanService {
 		return artisanDTOList;
 	}
 
+	//DTO
 	public ArtisanProfileDTO artisanProfileDTO(String username){
-		 Optional<Artisan> artisan = artisanRepository.findByUsername(username);
-		 Integer artisanId = artisan.get().getArtisan_id();
+		 Optional<Artisan> artisan = artisanRepository.findByUsername(username);//Buscamos el artesano por username
+		 Integer artisanId = artisan.get().getArtisan_id();// Guardamos id
 		    if(artisan.isPresent()) {
 		    	
-		    	ArtisanProfileDTO artisanProfileDTO = new ArtisanProfileDTO();
+		    	ArtisanProfileDTO artisanProfileDTO = new ArtisanProfileDTO(); //Creamos un nuevo objeto para guardar los valores deseados
+		    	artisanProfileDTO.setArtisan_id(artisan.get().getArtisan_id());
 		    	artisanProfileDTO.setName(artisan.get().getName());    
 		    	artisanProfileDTO.setSurnames(artisan.get().getSurnames());
 		    	artisanProfileDTO.setUsername(artisan.get().getUsername());    
 		    	artisanProfileDTO.setDescription(artisan.get().getDescription());
 		    	artisanProfileDTO.setImage(artisan.get().getImage());
-		    	Stream<Product> productsStream = productRepository.findAll().stream().filter(product -> product.getArtisan_id() == artisanId);
-		    	List<Product> productList = productsStream.collect(Collectors.toList());
-		    	artisanProfileDTO.setProducts(productList);
-		    	artisanProfileDTO.setProductsCount(productList.size());
+		    	Stream<Product> productsStream = productRepository.findAll().stream().filter(product -> product.getArtisan_id() == artisanId);// Recorremos la lista de productos entera y buscamos las coincidencias de las dos ID artisan
+		    	List<Product> productList = productsStream.collect(Collectors.toList());// Lo pasamos a lista
+		    	artisanProfileDTO.setProducts(productList); //Lo guardamos
+		    	artisanProfileDTO.setProductsCount(productList.size()); // Contamos la cantidad de coincidencias
 		    	Stream<Followers> followersStream = followersRepository.findAll().stream().filter(followers -> followers.getFollower_id() == artisanId);
 		    	List<Followers> followersList =followersStream.collect(Collectors.toList());
 		    	artisanProfileDTO.setFollowersCount(followersList.size());

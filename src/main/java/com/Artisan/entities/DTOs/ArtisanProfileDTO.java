@@ -11,6 +11,7 @@ import lombok.Data;
 public class ArtisanProfileDTO {
 	
 	String name;
+	Integer Artisan_id;
 	String surnames;
 	String username;
 	String description;

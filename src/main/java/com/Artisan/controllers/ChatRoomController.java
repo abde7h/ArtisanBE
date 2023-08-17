@@ -34,7 +34,7 @@ public class ChatRoomController {
 		
 	}
 
-	@GetMapping("/chatRoom")
+	@GetMapping("/chatRoom") // Trae una lista con todos los elementos llamados Chat Room
 	public List<ChatRoom> getChatRoom() {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom (GET)");
@@ -42,7 +42,7 @@ public class ChatRoomController {
 		
 	}
 
-	@GetMapping("/chatRoom/{idChat}")
+	@GetMapping("/chatRoom/{idChat}") // Trae elemento chatMessage con una determinada id *Input ID Chat*
 	public Optional<ChatRoom> findChatRoomById(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/" + idChat + " (GET)");
@@ -51,7 +51,7 @@ public class ChatRoomController {
 		
 	}
 
-	@PostMapping("/chatRoom/add")
+	@PostMapping("/chatRoom/add")// Añade un nuevo elemento Chat Room a la BBDD
 	public ResponseEntity<ChatRoom> saveChatRoom(@RequestBody ChatRoom chatRoom) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/add (POST)");
@@ -61,7 +61,7 @@ public class ChatRoomController {
 
 	}
 
-	@DeleteMapping("/chatRoom/delete/{idChat}")
+	@DeleteMapping("/chatRoom/delete/{idChat}") // Borra un elemento Chat Room de la BBDD con una determinada id *Input ID Chat Room*
 	public ResponseEntity<Object> deleteChatRoom(@PathVariable Integer idChat) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/delete/" + idChat + " (DELETE)");
@@ -71,7 +71,7 @@ public class ChatRoomController {
 		
 	}
 
-	@PatchMapping("/chatRoom/update")
+	@PatchMapping("/chatRoom/update") // Actualiza un elemento Chat Room en la BBDD
 	public ResponseEntity<String> updateChatRoom(@RequestBody ChatRoom chatRoomUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/chatRoom/update (PATCH)");

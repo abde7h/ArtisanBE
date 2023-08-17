@@ -46,7 +46,7 @@ public class ArtisanController {
 
 	// DTO
 	@GetMapping("/artisanDTO")
-	public List<ArtisanDTO> getArtisanDTO() {
+	public List<ArtisanDTO> getArtisanDTO() { // Trae todos los elementos Artisan filtrados por el DTO username, name, surname, image 
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
 		return artisanService.findAllArtisansDTO();
@@ -60,7 +60,7 @@ public class ArtisanController {
 		return artisan;
 	}
 
-	@GetMapping("/artisan/email/{email}") //Trae los elementos Artisan *Input Email*
+	@GetMapping("/artisan/email/{email}") //Trae los elementos Artisan *Input EMAIL*
 	public Optional<Artisan> findArtisanByEmail(@PathVariable String email) {
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + email + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanByEmail(email);
@@ -96,7 +96,7 @@ public class ArtisanController {
 	}
 	
 	//DTO
-	@GetMapping("/artisanProfile/{username}") //Trae el elemento Artisan con su nombre apellidos username descripcion contador de followers y productos y la lista de productos publicados *Input Username* 
+	@GetMapping("/artisanProfile/{username}") //Trae el elemento Artisan con su nombre apellidos username descripcion contador de followers y productos y la lista de productos publicados *Input USERNAME* 
 	public ArtisanProfileDTO profile(@PathVariable String username) {
 		
 		return artisanService.artisanProfileDTO(username);

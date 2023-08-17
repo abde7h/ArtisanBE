@@ -34,7 +34,7 @@ public class LikesController {
 
 	}
 
-	@GetMapping("/likes")
+	@GetMapping("/likes") // Trae una lista con todos los elementos llamados likes
 	public List<Likes> getLikes() {
 
 		log.info("Request a http://localhost:PORT/1.0.0/likes (GET)");
@@ -43,7 +43,7 @@ public class LikesController {
 	}
 		 
 
-	@GetMapping("/likes/{productId}")
+	@GetMapping("/likes/{productId}") // Trae una lista con todos los elementos llamados likes con una determinada id *Input ID likes*
    public ResponseEntity<List<Likes>> getLikesByProductId(@PathVariable Integer productId) {
 		
         List<Likes> likes = likesService.findLikesByProduct_Id(productId);
@@ -52,7 +52,7 @@ public class LikesController {
         }
   
 
-	@GetMapping("/likes/{userId}/{productId}")
+	@GetMapping("/likes/{userId}/{productId}") // Trae una lista con todos los elementos llamados likes con una determinada id de usuario y una determinada id de producto *Input ID usuario/producto*
 	public ResponseEntity<List<Likes>> getLikesByUserIdAndProductId(@PathVariable Integer userId,
 			@PathVariable Integer productId) {
 
@@ -61,7 +61,7 @@ public class LikesController {
 
 	}
 
-	@PostMapping("/likes/add")
+	@PostMapping("/likes/add") // Añade un nuevo elemento likes a la BBDD
 	public ResponseEntity<Likes> saveLikes(@RequestBody Likes likes) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/likes/add (POST)");
@@ -71,7 +71,7 @@ public class LikesController {
 
 	}
 
-	@DeleteMapping("/likes/delete/{userId}/{productId}")
+	@DeleteMapping("/likes/delete/{userId}/{productId}") // Elimina un elemento likes de la BBDD con un determinado id user y id producto 
 	public ResponseEntity<String> deleteLikes(@PathVariable Integer userId, @PathVariable Integer productId) {
 		likesService.deleteLikes(userId, productId);
 		return ResponseEntity.ok("Seguidor eliminado correctamente.");

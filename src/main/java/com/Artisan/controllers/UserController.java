@@ -3,6 +3,7 @@ package com.Artisan.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Artisan.entities.User;
+import com.Artisan.entities.DTOs.FollowersDTO;
+import com.Artisan.repository.UserRepository;
 import com.Artisan.services.UserService;
 
 import lombok.extern.java.Log;
@@ -25,6 +28,7 @@ import lombok.extern.java.Log;
 @RestController
 @RequestMapping(value = "/1.0.0")
 public class UserController {
+    
 	private UserService userService;
 
 	public UserController(UserService userService) {
@@ -75,4 +79,11 @@ public class UserController {
 		return (userUpdated.isPresent()) ? userService.updateUser(userUpdated.get())
 				:ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No existe User");
 	}
+	
+	@GetMapping("/{username}/following")
+	public ResponseEntity<List<FollowersDTO>> getArtisansFollowedByUser(@PathVariable String username) {
+	    List<FollowersDTO> followedArtisans = userService.findArtisansFollowedByUser(username);
+	    return ResponseEntity.ok(followedArtisans);
+	}
+
 }

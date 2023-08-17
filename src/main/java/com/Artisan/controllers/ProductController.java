@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.Product;
 import com.Artisan.entities.DTOs.FeedDTO;
@@ -108,5 +110,17 @@ public class ProductController {
 		return productService.feedDTO();
 
 	}
+	
+	@PostMapping("/{productId}/upload")
+    public ResponseEntity<String> uploadPhoto(@PathVariable Integer productId, @RequestParam("file") MultipartFile file) {
+       return productService.uploadPhoto(productId, file);
+    }
+	
+	@GetMapping("/{productId}/photos")
+	public ResponseEntity<List<String>> getProductPhotos(@PathVariable Integer productId) {
+	    List<String> photoUrls = productService.getProductPhotoUrls(productId);
+	    return ResponseEntity.ok(photoUrls);
+	}
+
 
 }

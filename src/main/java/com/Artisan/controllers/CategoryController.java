@@ -35,7 +35,7 @@ public class CategoryController {
 
 	}
 
-	@GetMapping("/category")
+	@GetMapping("/category") // Trae una lista con todos los elementos llamados Category
 	public List<Category> getCategory() {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user (GET)");
@@ -43,7 +43,7 @@ public class CategoryController {
 
 	}
 
-	@GetMapping("/category/{idCategory}")
+	@GetMapping("/category/{idCategory}") // Trae una lista con todos los elementos llamados Category *Input ID Category*
 	public Optional<Category> findCategoryById(@PathVariable Integer idCategory) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/category/" + idCategory + " (GET)");
@@ -52,7 +52,7 @@ public class CategoryController {
 
 	}
 
-	@PostMapping("/category/add")
+	@PostMapping("/category/add") // Añade elemento Category a la BBDD
 	public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/add (POST)");
@@ -62,7 +62,7 @@ public class CategoryController {
 		
 	}
 
-	@DeleteMapping("/category/delete/{idCategory}")
+	@DeleteMapping("/category/delete/{idCategory}") //Borra elemento Category de la BBDD *Input ID Category*
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer idCategory) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user/delete/" + idCategory + " (DELETE)");
@@ -72,7 +72,7 @@ public class CategoryController {
 				
 	}
 
-	@PatchMapping("/category/update")
+	@PatchMapping("/category/update") //Actualiza elemento Category de la BBDD
 	public ResponseEntity<String> updateCategory(@RequestBody Category categoryUpdated) {
 		
 		log.info("Request a http://localhost:PORT/1.0.0/user/update (PATCH)");

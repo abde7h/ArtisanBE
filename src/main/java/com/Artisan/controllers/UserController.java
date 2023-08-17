@@ -23,7 +23,7 @@ import com.Artisan.services.UserService;
 
 import lombok.extern.java.Log;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @Log
 @RestController
 @RequestMapping(value = "/1.0.0")

@@ -33,20 +33,20 @@ public class FollowersController {
 
 	}
 
-	@GetMapping("/followers")
+	@GetMapping("/followers") // Trae una lista con todos los elementos llamados followers
 	public List<Followers> getFollowers() {
 		log.info("Request a http://localhost:PORT/1.0.0/followers (GET)");
 		return followersService.findAllFollowers();
 	}
 
-	@GetMapping("/followers/{followerId}")
+	@GetMapping("/followers/{followerId}") // Trae una lista con todos los elementos llamados followers con una determinada id *Input ID follower*
 	public ResponseEntity<List<Followers>> getFollowersByFollower_Id(@PathVariable Integer followerId) {
 
 		List<Followers> followers = followersService.findFollowersByFollower_Id(followerId);
 		return (followers.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(followers);
 	}
 
-	@GetMapping("/followers/{followerId}/{followingId}")
+	@GetMapping("/followers/{followerId}/{followingId}") // Trae una lista con todos los elementos llamados followers con una determinada id de follower y una determinada id de following *Input ID follower/following*
 	public ResponseEntity<List<Followers>> getFollowerByFollowerIdAndFollowingId(@PathVariable Integer followerId,
 			@PathVariable Integer followingId) {
 
@@ -55,7 +55,7 @@ public class FollowersController {
 
 	}
 
-	@PostMapping("/followers/add")
+	@PostMapping("/followers/add") // Añade un nuevo elemento followers a la BBDD
 	public ResponseEntity<Followers> saveFollowers(@RequestBody Followers followers) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/followers/add (POST)");
@@ -65,7 +65,7 @@ public class FollowersController {
 
 	}
 
-	@DeleteMapping("/followers/delete/{followerId}/{followingId}")
+	@DeleteMapping("/followers/delete/{followerId}/{followingId}") // Elimina un elemento followers a la BBDD
 	public ResponseEntity<String> deleteFollower(@PathVariable Integer followerId, @PathVariable Integer followingId) {
 		followersService.deleteFollower(followerId, followingId);
 		return ResponseEntity.ok("Seguidor eliminado correctamente.");

@@ -1,11 +1,23 @@
 package com.Artisan.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Likes;
@@ -91,15 +103,74 @@ public class ProductService implements IProductService {
 			productToUpdate.setBuy_date(productUpdated.getBuy_date());
 			productToUpdate.setVisible(productUpdated.getVisible());
 			productRepository.save(productToUpdate);
-			return "User modificado";
+			return "Product modificado";
 
 		}
 
 		return "Error al modificar el producto";
 
 	}
+
+	public ResponseEntity<String> uploadPhoto(Integer productId, MultipartFile file) {
+
+		try {
+			if (file.isEmpty()) {
+				return ResponseEntity.badRequest().body("File is empty");
+			}
+			
+			String originalFilename = file.getOriginalFilename();
+	        String newFilename = productId + "_" + originalFilename;
+
+			// Get a reference to the resource directory & Create a path for the image file
+			Path filePath = Paths.get("src/main/resources/static/images/product").resolve(newFilename);
+			
+			 if (Files.exists(filePath)) {
+		            return ResponseEntity.badRequest().body("File with the same name already exists");
+		        }
+			 
+			// Save the file
+			Files.copy(file.getInputStream(), filePath);
+
+			return ResponseEntity.ok("File uploaded successfully");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to upload file: " + e.getMessage());
+		}
+	}
 	
-	//DTO
+	public List<String> getProductPhotoUrls(Integer productId) {
+	    List<String> photoUrls = new ArrayList<>();
+	    
+	    // Define the base URL for accessing images
+	    String baseUrl = "/images/product/";
+
+	    // Get a reference to the resource directory
+	    Resource resourceDir = new ClassPathResource("static/images/product");
+
+	    try {
+	        // Get a list of files in the directory
+	        File[] files = resourceDir.getFile().listFiles();
+
+	        if (files != null) {
+	            for (File file : files) {
+	                // Filter files based on productId and extension
+	                String filename = file.getName();
+	                if (filename.startsWith(productId + "_")) {
+	                    photoUrls.add(baseUrl + filename);
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        // Handle the exception
+	    }
+
+	    return photoUrls;
+	}
+	
+
+	
+
+	// DTO
 	public ProductProfileDTO productProfileDTO(Integer productId) {
 		Optional<Product> product = productRepository.findById(productId);
 
@@ -120,7 +191,7 @@ public class ProductService implements IProductService {
 		return null;
 	}
 
-	//DTO
+	// DTO
 	public List<FeedDTO> feedDTO() {
 		List<Product> productList = productRepository.findAll();
 		return productList.stream().map(product -> {

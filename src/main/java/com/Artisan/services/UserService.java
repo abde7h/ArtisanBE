@@ -3,12 +3,14 @@ package com.Artisan.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
+import com.Artisan.entities.DTOs.FollowersDTO;
 import com.Artisan.helpers.EmailValidatorUser;
 import com.Artisan.repository.UserRepository;
 import com.Artisan.services.interfaces.IUserService;
@@ -107,11 +109,19 @@ public class UserService implements IUserService {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No existe el elemento o no has pasado el id");
 		
 	}
+
 	
 	@Override
 	public List<User> findUserByEmailAndPassword(String email, String password) {
 		
 		return userRepository.findByEmailAndPassword(email, password);
 		
+
+
+
+
+	public List<FollowersDTO> findArtisansFollowedByUser(String username) {
+		return userRepository.findArtisansFollowedByUser(username);
+
 	}
 }

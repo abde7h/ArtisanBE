@@ -7,14 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Likes;
 import com.Artisan.entities.Product;
 import com.Artisan.entities.User;
-import com.Artisan.entities.DTOs.ArtisanDTONameSurname;
-import com.Artisan.entities.DTOs.ProductDTO;
+import com.Artisan.entities.DTOs.FollowersDTO;
 import com.Artisan.entities.DTOs.UserProfileDTO;
-import com.Artisan.entities.DTOs.UserProfileLikesDTO;
 import com.Artisan.helpers.EmailValidatorUser;
 import com.Artisan.repository.ArtisanRepository;
 import com.Artisan.repository.LikesRepository;
@@ -99,6 +96,10 @@ public class UserService implements IUserService {
 	@Override
 	public List<User> findUserByEmailAndPassword(String email, String password) {
 		return userRepository.findByEmailAndPassword(email, password);
+	}
+
+	public List<FollowersDTO> findArtisansFollowedByUser(String username) {
+		return userRepository.findArtisansFollowedByUser(username);
 	}
 
 	/*

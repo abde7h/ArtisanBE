@@ -209,6 +209,7 @@ public class ProductService implements IProductService {
 		List<Product> productList = productRepository.findAll();
 		return productList.stream().map(product -> {
 			FeedDTO feedDTO = new FeedDTO();
+			feedDTO.setId(product.getProduct_id());
 			feedDTO.setImage(product.getImage());
 			feedDTO.setName(product.getName());
 			Optional<Artisan> artisan = artisanRepository.findById(product.getArtisan_id());

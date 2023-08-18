@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
 import com.Artisan.helpers.EmailValidatorUser;
 import com.Artisan.repository.UserRepository;
@@ -104,6 +105,13 @@ public class UserService implements IUserService {
 		}
 		
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No existe el elemento o no has pasado el id");
+		
+	}
+	
+	@Override
+	public List<User> findUserByEmailAndPassword(String email, String password) {
+		
+		return userRepository.findByEmailAndPassword(email, password);
 		
 	}
 }

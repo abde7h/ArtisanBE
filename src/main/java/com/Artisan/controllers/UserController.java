@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
 import com.Artisan.services.UserService;
 
@@ -53,12 +54,12 @@ public class UserController {
 	}
 
 	@PostMapping("/user/add")
-	public ResponseEntity<ResponseEntity<Object>> saveUser(@RequestBody User user) {
+	public ResponseEntity<Object> saveUser(@RequestBody User user) {
 		log.info("Request a http://localhost:PORT/1.0.0/user/add (POST)");
-		ResponseEntity<Object> savedUser = userService.saveUser(user);
+		return userService.saveUser(user);
 
-		return (savedUser != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		/*return (savedUser != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();*/
 	}
 
 	@DeleteMapping("/user/delete/{idUsuario}")
@@ -74,5 +75,14 @@ public class UserController {
 	public ResponseEntity<Object> updateUser(@RequestBody Optional<User> userUpdated) {
 		return (userUpdated.isPresent()) ? userService.updateUser(userUpdated.get())
 				:ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No existe User");
+	}
+	
+	@GetMapping("/user/{email}/{password}")
+	public ResponseEntity<List<User>> getUserByEmailAndPassword(@PathVariable String email,
+			@PathVariable String password) {
+
+		List<User> user = userService.findUserByEmailAndPassword(email, password);
+		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+
 	}
 }

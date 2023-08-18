@@ -165,5 +165,12 @@ public class ArtisanService implements IArtisanService {
 		    }
 		    return null;
 	}
+	
+	@Override
+	public List<Artisan> findArtisanByEmailAndPassword(String email, String password) {
+		
+		return artisanRepository.findByEmailAndPassword(email, password);
+		
+	}
 
 }

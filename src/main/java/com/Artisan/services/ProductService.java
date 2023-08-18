@@ -62,7 +62,20 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Product saveProduct(Product product) {
+		 // Get the product ID
+       /* Integer productId = product.getProduct_id();
 
+        // Get the existing photo paths for the product
+        List<String> existingPhotoPaths = getProductPhotoUrls(productId);
+
+        // Update the photo paths in the product object
+        for (int i = 0; i < existingPhotoPaths.size(); i++) {
+            String Path = existingPhotoPaths.get(i);
+            product.setImage(Path);
+        }*/
+		
+		productRepository.save(product);
+		product.setImage("C:\\Users\\Tarda\\Desktop\\ArtisanBE\\target\\classes\\static\\images\\product\\" + product.getProduct_id() + "_Product");
 		productRepository.save(product);
 		return product;
 
@@ -118,8 +131,8 @@ public class ProductService implements IProductService {
 				return ResponseEntity.badRequest().body("File is empty");
 			}
 			
-			String originalFilename = file.getOriginalFilename();
-	        String newFilename = productId + "_" + originalFilename;
+			//String originalFilename = file.getOriginalFilename();
+	        String newFilename = productId + "_Product" /*+ originalFilename*/;
 
 			// Get a reference to the resource directory & Create a path for the image file
 			Path filePath = Paths.get("src/main/resources/static/images/product").resolve(newFilename);
@@ -142,7 +155,7 @@ public class ProductService implements IProductService {
 	    List<String> photoUrls = new ArrayList<>();
 	    
 	    // Define the base URL for accessing images
-	    String baseUrl = "/images/product/";
+	    //String baseUrl = "/images/product/";
 
 	    // Get a reference to the resource directory
 	    Resource resourceDir = new ClassPathResource("static/images/product");
@@ -156,7 +169,7 @@ public class ProductService implements IProductService {
 	                // Filter files based on productId and extension
 	                String filename = file.getName();
 	                if (filename.startsWith(productId + "_")) {
-	                    photoUrls.add(baseUrl + filename);
+	                    photoUrls.add(file.getAbsolutePath());
 	                }
 	            }
 	        }

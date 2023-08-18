@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
+import com.Artisan.entities.DTOs.UserProfileDTO;
 import com.Artisan.services.UserService;
 
 import lombok.extern.java.Log;
@@ -80,9 +80,12 @@ public class UserController {
 	@GetMapping("/user/{email}/{password}")
 	public ResponseEntity<List<User>> getUserByEmailAndPassword(@PathVariable String email,
 			@PathVariable String password) {
-
 		List<User> user = userService.findUserByEmailAndPassword(email, password);
 		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
-
+	}
+	
+	@GetMapping("/asdf")
+	public UserProfileDTO asdf() {
+		return userService.asdf();
 	}
 }

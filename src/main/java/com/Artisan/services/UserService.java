@@ -2,11 +2,13 @@ package com.Artisan.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Likes;
 import com.Artisan.entities.Product;
 import com.Artisan.entities.User;
@@ -135,26 +137,61 @@ public class UserService implements IUserService {
 	 * return userProfileDTO; }
 	 */
 
-	public UserProfileDTO asdf() {
+	/*public UserProfileDTO asdf() {
 		Optional<User> userSelected = userRepository.findById(1);
-		Optional<Likes> user = likesRepository.findAll().stream()
-				.filter(likesData -> likesData.getUser_id().equals(userSelected.get().getUser_id())).findFirst();
-		List<Product> product = productRepository.findAll().stream()
-				.filter(productData -> productData.getProduct_id().equals(user.get().getProduct_id())).toList();
-//		List<Artisan> artisan = artisanRepository.findAll().stream()
-//				.filter(artisanData -> artisanData.getArtisan_id().equals(product.get().getArtisan_id())).toList();
+		  List<Likes> userLikes = likesRepository.findAll().stream()
+		            .filter(likesData -> likesData.getUser_id().equals(userSelected.get().getUser_id()))
+		            .collect(Collectors.toList());
+	
+		List<Product> products = productRepository.findAll().stream()
+	            .filter(productData -> userLikes.stream().anyMatch(likesData -> likesData.getProduct_id().equals(productData.getProduct_id())))
+	            .collect(Collectors.toList());
+
+		List<Artisan> artisan = artisanRepository.findAll().stream()
+				.filter(artisanData -> products.stream().anyMatch(productData -> productData.getArtisan_id().equals(artisanData.getArtisan_id()))
+				.collect(Collectors.toList());
 
 		UserProfileDTO userProfileDTO = new UserProfileDTO();
-		if (user.isPresent() && userSelected.isPresent()) {
+		
 			userProfileDTO.setName(userSelected.get().getName());
 			userProfileDTO.setSurnames(userSelected.get().getSurnames());
 			userProfileDTO.setImage(userSelected.get().getImage());
 			userProfileDTO.setDescription(userSelected.get().getDescription());
-			userProfileDTO.setList(product);
+			userProfileDTO.setList(products);
+			userProfileDTO.setList(artisan);
 
-		}
+		
 
 		return userProfileDTO;
+	}*/
+	
+	public UserProfileDTO asdf(Integer id) {
+	    Optional<User> userSelected = userRepository.findById(id);
+
+	    List<Likes> userLikes = likesRepository.findAll().stream()
+	            .filter(likesData -> likesData.getUser_id().equals(userSelected.get().getUser_id()))
+	            .collect(Collectors.toList());
+
+	    List<Product> products = productRepository.findAll().stream()
+	            .filter(productData -> userLikes.stream().anyMatch(likesData -> likesData.getProduct_id().equals(productData.getProduct_id())))
+	            .collect(Collectors.toList());
+
+	    List<Artisan> artisans = artisanRepository.findAll().stream()
+	            .filter(artisanData -> products.stream().anyMatch(productData -> productData.getArtisan_id().equals(artisanData.getArtisan_id())))
+	            .collect(Collectors.toList());
+
+	    UserProfileDTO userProfileDTO = new UserProfileDTO();
+
+	    if (userSelected.isPresent()) {
+	        userProfileDTO.setName(userSelected.get().getName());
+	        userProfileDTO.setSurnames(userSelected.get().getSurnames());
+	        userProfileDTO.setImage(userSelected.get().getImage());
+	        userProfileDTO.setDescription(userSelected.get().getDescription());
+	        userProfileDTO.setListproduct(products);
+	        userProfileDTO.setListartisan(artisans);
+	    }
+
+	    return userProfileDTO;
 	}
 
 }

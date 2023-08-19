@@ -2,6 +2,7 @@ package com.Artisan.entities.DTOs;
 
 import java.util.List;
 
+import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Product;
 
 import lombok.Data;
@@ -14,7 +15,8 @@ public class UserProfileDTO {
 	private String image;
 	private String description;
 	// Product
-	private List<Product> list;
+	private List<Product> listproduct;
+	private List<Artisan> listartisan;
 //	String productName;
 //	String productImage;
 //	Integer productId;

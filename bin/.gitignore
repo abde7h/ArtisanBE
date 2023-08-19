@@ -35,3 +35,4 @@ build/
 ## Maven ##
 
 ./target
+./ArtisanBE/src/main/resources/application.properties

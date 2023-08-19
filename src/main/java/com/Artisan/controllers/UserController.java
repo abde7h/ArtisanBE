@@ -3,7 +3,7 @@ package com.Artisan.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Artisan.entities.User;
-<<<<<<< HEAD
+
 import com.Artisan.entities.DTOs.UserProfileDTO;
-=======
+
 import com.Artisan.entities.DTOs.FollowersDTO;
-import com.Artisan.repository.UserRepository;
->>>>>>> 79f515e7d83660198f01c9a087b7c1200342be1e
+
+
 import com.Artisan.services.UserService;
 
 import lombok.extern.java.Log;
@@ -92,9 +92,9 @@ public class UserController {
 		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
 	
-	@GetMapping("/asdf")
-	public UserProfileDTO asdf() {
-		return userService.asdf();
+	@GetMapping("/userDTO/{userId}")
+	public UserProfileDTO asdf(@PathVariable Integer userId) {
+		return userService.asdf(userId);
 	}
 
 	@GetMapping("/{username}/following")

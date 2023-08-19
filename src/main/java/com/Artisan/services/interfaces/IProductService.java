@@ -16,5 +16,5 @@ public interface IProductService {
 	String deleteProduct(Integer id);
 	String updateProduct(Product productUpdated);
 	public ResponseEntity<String> uploadPhoto(Integer productId, MultipartFile file);
-
+	public List<String> getProductPhotoUrls(Integer productId);
 }

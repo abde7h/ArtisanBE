@@ -102,5 +102,14 @@ public class ArtisanController {
 		return artisanService.artisanProfileDTO(username);
 		
 	}
+	
+	@GetMapping("/artisan/{email}/{password}")
+	public ResponseEntity<List<Artisan>> getArtisanByEmailAndPassword(@PathVariable String email,
+			@PathVariable String password) {
+
+		List<Artisan> artisan = artisanService.findArtisanByEmailAndPassword(email, password);
+		return (artisan.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(artisan);
+
+	}
 
 }

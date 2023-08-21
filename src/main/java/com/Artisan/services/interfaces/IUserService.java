@@ -15,5 +15,6 @@ public interface IUserService {
 	ResponseEntity<Object> saveUser(User userAdd);
 	String deleteUser(Integer id);
 	ResponseEntity<Object> updateUser(User userUpdated);
+	List<User> findUserByEmailAndPassword(String email, String password);
 	
 }

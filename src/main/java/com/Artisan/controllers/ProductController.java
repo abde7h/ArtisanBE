@@ -111,12 +111,12 @@ public class ProductController {
 
 	}
 	
-	@PostMapping("/{productId}/upload")
+	@PostMapping("/product/photo/upload/{productId}")
     public ResponseEntity<String> uploadPhoto(@PathVariable Integer productId, @RequestParam("file") MultipartFile file) {
        return productService.uploadPhoto(productId, file);
     }
 	
-	@GetMapping("/{productId}/photos")
+	@GetMapping("/product/photo/{productId}")
 	public ResponseEntity<List<String>> getProductPhotos(@PathVariable Integer productId) {
 	    List<String> photoUrls = productService.getProductPhotoUrls(productId);
 	    return ResponseEntity.ok(photoUrls);

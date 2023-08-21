@@ -3,7 +3,7 @@ package com.Artisan.controllers;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,8 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.Artisan.entities.User;
+
+import com.Artisan.entities.DTOs.UserProfileDTO;
+
 import com.Artisan.entities.DTOs.FollowersDTO;
-import com.Artisan.repository.UserRepository;
+
+
 import com.Artisan.services.UserService;
 
 import lombok.extern.java.Log;
@@ -57,12 +61,12 @@ public class UserController {
 	}
 
 	@PostMapping("/user/add")
-	public ResponseEntity<ResponseEntity<Object>> saveUser(@RequestBody User user) {
+	public ResponseEntity<Object> saveUser(@RequestBody User user) {
 		log.info("Request a http://localhost:PORT/1.0.0/user/add (POST)");
-		ResponseEntity<Object> savedUser = userService.saveUser(user);
+		return userService.saveUser(user);
 
-		return (savedUser != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		/*return (savedUser != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
+				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();*/
 	}
 
 	@DeleteMapping("/user/delete/{idUsuario}")
@@ -80,10 +84,24 @@ public class UserController {
 				:ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No existe User");
 	}
 	
+
+	@GetMapping("/user/{email}/{password}")
+	public ResponseEntity<List<User>> getUserByEmailAndPassword(@PathVariable String email,
+			@PathVariable String password) {
+		List<User> user = userService.findUserByEmailAndPassword(email, password);
+		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+	}
+	
+	@GetMapping("/userDTO/{userId}")
+	public UserProfileDTO asdf(@PathVariable Integer userId) {
+		return userService.asdf(userId);
+	}
+
 	@GetMapping("/{username}/following")
 	public ResponseEntity<List<FollowersDTO>> getArtisansFollowedByUser(@PathVariable String username) {
 	    List<FollowersDTO> followedArtisans = userService.findArtisansFollowedByUser(username);
 	    return ResponseEntity.ok(followedArtisans);
 	}
+
 
 }

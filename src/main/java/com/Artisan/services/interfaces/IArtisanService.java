@@ -16,5 +16,6 @@ public interface IArtisanService {
 	ResponseEntity<Object> saveArtisan(Artisan artisanAdd);
 	String deleteArtisan(Integer id);
 	ResponseEntity<Object> updateArtisan(Artisan artisanUpdated);
+	List<Artisan> findArtisanByEmailAndPassword(String email, String password);
 
 }

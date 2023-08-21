@@ -86,10 +86,11 @@ public class UserController {
 	
 
 	@GetMapping("/user/{email}/{password}")
-	public ResponseEntity<List<User>> getUserByEmailAndPassword(@PathVariable String email,
+	public ResponseEntity<Object> getUserByEmailAndPassword(@PathVariable String email,
 			@PathVariable String password) {
 		List<User> user = userService.findUserByEmailAndPassword(email, password);
-		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
+		return (user.size() > 0)?
+				ResponseEntity.ok(user.get(0)):ResponseEntity.notFound().build();
 	}
 	
 	@GetMapping("/userDTO/{username}")

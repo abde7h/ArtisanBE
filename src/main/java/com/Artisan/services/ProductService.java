@@ -156,7 +156,7 @@ public class ProductService implements IProductService {
 	                // Filter files based on productId and extension
 	                String filename = file.getName();
 	                if (filename.startsWith(productId + "_")) {
-	                    photoUrls.add(baseUrl + filename);
+	                    photoUrls.add(file.getAbsolutePath());
 	                }
 	            }
 	        }

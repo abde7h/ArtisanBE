@@ -148,7 +148,7 @@ public class ArtisanService implements IArtisanService {
 		    if(artisan.isPresent()) {
 		    	
 		    	ArtisanProfileDTO artisanProfileDTO = new ArtisanProfileDTO(); //Creamos un nuevo objeto para guardar los valores deseados
-		    	artisanProfileDTO.setArtisan_id(artisan.get().getArtisan_id());
+		    	artisanProfileDTO.setArtisan_id(artisanId);
 		    	artisanProfileDTO.setName(artisan.get().getName());    
 		    	artisanProfileDTO.setSurnames(artisan.get().getSurnames());
 		    	artisanProfileDTO.setUsername(artisan.get().getUsername());    

@@ -93,9 +93,9 @@ public class UserController {
 		return (user.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(user);
 	}
 	
-	@GetMapping("/userDTO/{userId}")
-	public UserProfileDTO asdf(@PathVariable Integer userId) {
-		return userService.asdf(userId);
+	@GetMapping("/userDTO/{username}")
+	public UserProfileDTO asdf(@PathVariable String username) {
+		return userService.asdf(username);
 	}
 
 	@GetMapping("/{username}/following")

@@ -48,28 +48,29 @@ public class ArtisanController {
 
 	// DTO
 	@GetMapping("/artisanDTO")
-	public List<ArtisanDTO> getArtisanDTO() { // Trae todos los elementos Artisan filtrados por el DTO username, name, surname, image 
+	public List<ArtisanDTO> getArtisanDTO() { // Trae todos los elementos Artisan filtrados por el DTO username, name,
+												// surname, image
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan (GET)");
 		return artisanService.findAllArtisansDTO();
 
 	}
 
-	@GetMapping("/artisan/{idArtisan}") //Trae los elementos Artisan *Input ID*
+	@GetMapping("/artisan/{idArtisan}") // Trae los elementos Artisan *Input ID*
 	public Optional<Artisan> findArtisanById(@PathVariable Integer idArtisan) {
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + idArtisan + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanById(idArtisan);
 		return artisan;
 	}
 
-	@GetMapping("/artisan/email/{email}") //Trae los elementos Artisan *Input EMAIL*
+	@GetMapping("/artisan/email/{email}") // Trae los elementos Artisan *Input EMAIL*
 	public Optional<Artisan> findArtisanByEmail(@PathVariable String email) {
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/" + email + " (GET)");
 		Optional<Artisan> artisan = artisanService.findArtisanByEmail(email);
 		return artisan;
 	}
 
-	@PostMapping("/artisan/add") //Añade un nuevo elemento Artisan
+	@PostMapping("/artisan/add") // Añade un nuevo elemento Artisan
 	public ResponseEntity<ResponseEntity<Object>> saveArtisan(@RequestBody Artisan artisan) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/add (POST)");
@@ -79,7 +80,7 @@ public class ArtisanController {
 
 	}
 
-	@DeleteMapping("/artisan/delete/{idArtisan}") //Borra un elemento Artisan *Input ID*
+	@DeleteMapping("/artisan/delete/{idArtisan}") // Borra un elemento Artisan *Input ID*
 	public ResponseEntity<Object> deleteUser(@PathVariable Integer idArtisan) {
 
 		log.info("Request a http://localhost:PORT/1.0.0/artisan/delete/" + idArtisan + " (DELETE)");
@@ -96,33 +97,36 @@ public class ArtisanController {
 				: ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("No existe User");
 
 	}
-	
-	//DTO
-	@GetMapping("/artisanProfile/{username}") //Trae el elemento Artisan con su nombre apellidos username descripcion contador de followers y productos y la lista de productos publicados *Input USERNAME* 
+
+	// DTO
+	@GetMapping("/artisanProfile/{username}") // Trae el elemento Artisan con su nombre apellidos username descripcion
+												// contador de followers y productos y la lista de productos publicados
+												// *Input USERNAME*
 	public ArtisanProfileDTO profile(@PathVariable String username) {
-		
+
 		return artisanService.artisanProfileDTO(username);
-		
+
 	}
-	
+
 	@GetMapping("/artisan/{email}/{password}")
-	public ResponseEntity<List<Artisan>> getArtisanByEmailAndPassword(@PathVariable String email,
+	public ResponseEntity<Object> getArtisanByEmailAndPassword(@PathVariable String email,
 			@PathVariable String password) {
 
 		List<Artisan> artisan = artisanService.findArtisanByEmailAndPassword(email, password);
-		return (artisan.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(artisan);
-
+		return (artisan.size() > 0)?
+			ResponseEntity.ok(artisan.get(0)):ResponseEntity.notFound().build();
 	}
-	
+
 	@PostMapping("/artisan/photo/upload/{artisanId}")
-    public ResponseEntity<String> uploadPhoto(@PathVariable Integer artisanId, @RequestParam("file") MultipartFile file) {
-       return artisanService.uploadPhoto(artisanId, file);
-    }
-	
+	public ResponseEntity<String> uploadPhoto(@PathVariable Integer artisanId,
+			@RequestParam("file") MultipartFile file) {
+		return artisanService.uploadPhoto(artisanId, file);
+	}
+
 	@GetMapping("/artisan/photo/{artisanId}")
 	public ResponseEntity<List<String>> getArtisanPhotos(@PathVariable Integer artisanId) {
-	    List<String> photoUrls = artisanService.getArtisanPhotoUrls(artisanId);
-	    return ResponseEntity.ok(photoUrls);
+		List<String> photoUrls = artisanService.getArtisanPhotoUrls(artisanId);
+		return ResponseEntity.ok(photoUrls);
 	}
 
 }

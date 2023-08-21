@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.Artisan;
 import com.Artisan.entities.DTOs.ArtisanDTO;
@@ -111,6 +113,17 @@ public class ArtisanController {
 		List<Artisan> artisan = artisanService.findArtisanByEmailAndPassword(email, password);
 		return (artisan.isEmpty()) ? ResponseEntity.notFound().build() : ResponseEntity.ok(artisan);
 
+	}
+	
+	@PostMapping("/artisan/photo/upload/{artisanId}")
+    public ResponseEntity<String> uploadPhoto(@PathVariable Integer artisanId, @RequestParam("file") MultipartFile file) {
+       return artisanService.uploadPhoto(artisanId, file);
+    }
+	
+	@GetMapping("/artisan/photo/{artisanId}")
+	public ResponseEntity<List<String>> getArtisanPhotos(@PathVariable Integer artisanId) {
+	    List<String> photoUrls = artisanService.getArtisanPhotoUrls(artisanId);
+	    return ResponseEntity.ok(photoUrls);
 	}
 
 }

@@ -1,12 +1,21 @@
 package com.Artisan.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Likes;
@@ -58,6 +67,8 @@ public class UserService implements IUserService {
 	public ResponseEntity<Object> saveUser(User userAdd) {
 		if (emailValidator.checkValidAndExistEmail(userAdd.getEmail())) {
 			userRepository.save(userAdd);
+			userAdd.setImage("C:\\Users\\Tarda\\Desktop\\ArtisanBE\\target\\classes\\static\\images\\users\\" + userAdd.getUser_id() + "_User");
+			userRepository.save(userAdd);
 			return ResponseEntity.ok(userAdd);
 		} else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El correo ya existe o no es válido");
@@ -103,67 +114,6 @@ public class UserService implements IUserService {
 	public List<FollowersDTO> findArtisansFollowedByUser(String username) {
 		return userRepository.findArtisansFollowedByUser(username);
 	}
-
-	/*
-	 * public UserProfileDTO createProfileDTO() { Optional<User> userSelected =
-	 * userRepository.findById(1); Optional<Likes> userLikes =
-	 * likesRepository.findAll() .stream() .filter(likesData ->
-	 * likesData.getUser_id().equals(userSelected.get().getUser_id())) .findFirst();
-	 * 
-	 * UserProfileDTO userProfileDTO = new UserProfileDTO();
-	 * 
-	 * if (userLikes.isPresent() && userSelected.isPresent()) {
-	 * userProfileDTO.setName(userSelected.get().getName());
-	 * userProfileDTO.setSurnames(userSelected.get().getSurnames());
-	 * userProfileDTO.setImage(userSelected.get().getImage());
-	 * userProfileDTO.setDescription(userSelected.get().getDescription());
-	 * 
-	 * UserProfileLikesDTO userProfileLikesDTO = new UserProfileLikesDTO();
-	 * 
-	 * // Map ProductDTO ProductDTO productDTO = new ProductDTO();
-	 * productDTO.setName(userLikes.get().getProduct().getName());
-	 * productDTO.setImage(userLikes.get().getProduct().getImage());
-	 * productDTO.setProduct_id(userLikes.get().getProduct().getProduct_id());
-	 * userProfileLikesDTO.setProduct(productDTO);
-	 * 
-	 * // Map ArtisanDTONameSurname ArtisanDTONameSurname artisanDTO = new
-	 * ArtisanDTONameSurname();
-	 * artisanDTO.setName(userLikes.get().getArtisan().getName());
-	 * artisanDTO.setSurname(userLikes.get().getArtisan().getSurname());
-	 * userProfileLikesDTO.setArtisan(artisanDTO);
-	 * 
-	 * userProfileDTO.setLikes(userProfileLikesDTO); }
-	 * 
-	 * return userProfileDTO; }
-	 */
-
-	/*public UserProfileDTO asdf() {
-		Optional<User> userSelected = userRepository.findById(1);
-		  List<Likes> userLikes = likesRepository.findAll().stream()
-		            .filter(likesData -> likesData.getUser_id().equals(userSelected.get().getUser_id()))
-		            .collect(Collectors.toList());
-	
-		List<Product> products = productRepository.findAll().stream()
-	            .filter(productData -> userLikes.stream().anyMatch(likesData -> likesData.getProduct_id().equals(productData.getProduct_id())))
-	            .collect(Collectors.toList());
-
-		List<Artisan> artisan = artisanRepository.findAll().stream()
-				.filter(artisanData -> products.stream().anyMatch(productData -> productData.getArtisan_id().equals(artisanData.getArtisan_id()))
-				.collect(Collectors.toList());
-
-		UserProfileDTO userProfileDTO = new UserProfileDTO();
-		
-			userProfileDTO.setName(userSelected.get().getName());
-			userProfileDTO.setSurnames(userSelected.get().getSurnames());
-			userProfileDTO.setImage(userSelected.get().getImage());
-			userProfileDTO.setDescription(userSelected.get().getDescription());
-			userProfileDTO.setList(products);
-			userProfileDTO.setList(artisan);
-
-		
-
-		return userProfileDTO;
-	}*/
 	
 	public UserProfileDTO asdf(Integer id) {
 	    Optional<User> userSelected = userRepository.findById(id);
@@ -183,6 +133,7 @@ public class UserService implements IUserService {
 	    UserProfileDTO userProfileDTO = new UserProfileDTO();
 
 	    if (userSelected.isPresent()) {
+	    	userProfileDTO.setUsername(userSelected.get().getUsername());
 	        userProfileDTO.setName(userSelected.get().getName());
 	        userProfileDTO.setSurnames(userSelected.get().getSurnames());
 	        userProfileDTO.setImage(userSelected.get().getImage());
@@ -193,5 +144,63 @@ public class UserService implements IUserService {
 
 	    return userProfileDTO;
 	}
+	
+	public ResponseEntity<String> uploadPhoto(Integer userId, MultipartFile file) {
+
+		try {
+			if (file.isEmpty()) {
+				return ResponseEntity.badRequest().body("File is empty");
+			}
+			
+			//String originalFilename = file.getOriginalFilename();
+	        String newFilename = userId + "_User" /*+ originalFilename*/;
+
+			// Get a reference to the resource directory & Create a path for the image file
+			Path filePath = Paths.get("src/main/resources/static/images/users").resolve(newFilename);
+			
+			 if (Files.exists(filePath)) {
+		            return ResponseEntity.badRequest().body("File with the same name already exists");
+		        }
+			 
+			// Save the file
+			Files.copy(file.getInputStream(), filePath);
+
+			return ResponseEntity.ok("File uploaded successfully");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to upload file: " + e.getMessage());
+		}
+	}
+	
+	public List<String> getArtisanPhotoUrls(Integer userId) {
+	    List<String> photoUrls = new ArrayList<>();
+	    
+	    // Define the base URL for accessing images
+	    //String baseUrl = "/images/product/";
+
+	    // Get a reference to the resource directory
+	    Resource resourceDir = new ClassPathResource("static/images/users");
+
+	    try {
+	        // Get a list of files in the directory
+	        File[] files = resourceDir.getFile().listFiles();
+
+	        if (files != null) {
+	            for (File file : files) {
+	                // Filter files based on productId and extension
+	                String filename = file.getName();
+	                if (filename.startsWith(userId + "_")) {
+	                    photoUrls.add(file.getAbsolutePath());
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        // Handle the exception
+	    }
+
+	    return photoUrls;
+	}
+	
+	
 
 }

@@ -62,25 +62,12 @@ public class ProductService implements IProductService {
 
 	@Override
 	public Product saveProduct(Product product) {
-		 // Get the product ID
-       /* Integer productId = product.getProduct_id();
-
-        // Get the existing photo paths for the product
-        List<String> existingPhotoPaths = getProductPhotoUrls(productId);
-
-        // Update the photo paths in the product object
-        for (int i = 0; i < existingPhotoPaths.size(); i++) {
-            String Path = existingPhotoPaths.get(i);
-            product.setImage(Path);
-        }*/
-		
 		productRepository.save(product);
 		product.setImage("C:\\Users\\Tarda\\Desktop\\ArtisanBE\\target\\classes\\static\\images\\product\\" + product.getProduct_id() + "_Product");
 		productRepository.save(product);
 		return product;
-
 	}
-
+	
 	@Override
 	public String deleteProduct(Integer id) {
 

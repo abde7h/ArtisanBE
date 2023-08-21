@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.User;
 
@@ -65,8 +67,6 @@ public class UserController {
 		log.info("Request a http://localhost:PORT/1.0.0/user/add (POST)");
 		return userService.saveUser(user);
 
-		/*return (savedUser != null) ? ResponseEntity.status(HttpStatus.CREATED).body(savedUser)
-				: ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();*/
 	}
 
 	@DeleteMapping("/user/delete/{idUsuario}")
@@ -101,6 +101,17 @@ public class UserController {
 	public ResponseEntity<List<FollowersDTO>> getArtisansFollowedByUser(@PathVariable String username) {
 	    List<FollowersDTO> followedArtisans = userService.findArtisansFollowedByUser(username);
 	    return ResponseEntity.ok(followedArtisans);
+	}
+	
+	@PostMapping("/user/photo/upload/{userId}")
+    public ResponseEntity<String> uploadPhoto(@PathVariable Integer userId, @RequestParam("file") MultipartFile file) {
+       return userService.uploadPhoto(userId, file);
+    }
+	
+	@GetMapping("/user/photo/{userId}")
+	public ResponseEntity<List<String>> getArtisanPhotos(@PathVariable Integer userId) {
+	    List<String> photoUrls = userService.getArtisanPhotoUrls(userId);
+	    return ResponseEntity.ok(photoUrls);
 	}
 
 

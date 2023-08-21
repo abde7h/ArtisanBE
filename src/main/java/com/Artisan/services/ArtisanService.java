@@ -1,5 +1,10 @@
 package com.Artisan.services;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -7,9 +12,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.Artisan.entities.Artisan;
 import com.Artisan.entities.Followers;
@@ -71,8 +79,10 @@ public class ArtisanService implements IArtisanService {
 	public ResponseEntity<Object> saveArtisan(Artisan artisanAdd) {
 
 		if (emailValidator.checkValidAndExistEmail(artisanAdd.getEmail())) {
-
 			artisanRepository.save(artisanAdd);
+			artisanAdd.setImage("C:\\Users\\Tarda\\Desktop\\ArtisanBE\\target\\classes\\static\\images\\artisans\\" + artisanAdd.getArtisan_id() + "_Artisan");
+			artisanRepository.save(artisanAdd);
+			
 			return ResponseEntity.ok(artisanAdd);
 
 		} else {
@@ -171,6 +181,62 @@ public class ArtisanService implements IArtisanService {
 		
 		return artisanRepository.findByEmailAndPassword(email, password);
 		
+	}
+	
+	public ResponseEntity<String> uploadPhoto(Integer artisanId, MultipartFile file) {
+
+		try {
+			if (file.isEmpty()) {
+				return ResponseEntity.badRequest().body("File is empty");
+			}
+			
+			//String originalFilename = file.getOriginalFilename();
+	        String newFilename = artisanId + "_Artisan" /*+ originalFilename*/;
+
+			// Get a reference to the resource directory & Create a path for the image file
+			Path filePath = Paths.get("src/main/resources/static/images/artisans").resolve(newFilename);
+			
+			 if (Files.exists(filePath)) {
+		            return ResponseEntity.badRequest().body("File with the same name already exists");
+		        }
+			 
+			// Save the file
+			Files.copy(file.getInputStream(), filePath);
+
+			return ResponseEntity.ok("File uploaded successfully");
+		} catch (IOException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Failed to upload file: " + e.getMessage());
+		}
+	}
+	
+	public List<String> getArtisanPhotoUrls(Integer artisanId) {
+	    List<String> photoUrls = new ArrayList<>();
+	    
+	    // Define the base URL for accessing images
+	    //String baseUrl = "/images/product/";
+
+	    // Get a reference to the resource directory
+	    Resource resourceDir = new ClassPathResource("static/images/artisans");
+
+	    try {
+	        // Get a list of files in the directory
+	        File[] files = resourceDir.getFile().listFiles();
+
+	        if (files != null) {
+	            for (File file : files) {
+	                // Filter files based on productId and extension
+	                String filename = file.getName();
+	                if (filename.startsWith(artisanId + "_")) {
+	                    photoUrls.add(file.getAbsolutePath());
+	                }
+	            }
+	        }
+	    } catch (IOException e) {
+	        // Handle the exception
+	    }
+
+	    return photoUrls;
 	}
 
 }

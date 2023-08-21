@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
 import com.Artisan.entities.DTOs.FollowersDTO;
 

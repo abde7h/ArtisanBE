@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class UserProfileDTO {
 	// User
+	private String username;
 	private String name;
 	private String surnames;
 	private String image;

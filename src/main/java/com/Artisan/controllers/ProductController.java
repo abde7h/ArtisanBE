@@ -121,6 +121,4 @@ public class ProductController {
 	    List<String> photoUrls = productService.getProductPhotoUrls(productId);
 	    return ResponseEntity.ok(photoUrls);
 	}
-
-
 }

@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import com.Artisan.entities.Artisan;
 import com.Artisan.entities.User;
 import com.Artisan.entities.DTOs.FollowersDTO;
 
@@ -14,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	Optional<User> findByEmail(String email);
     @Query("SELECT u FROM User u WHERE u.email = :email AND u.password = :password")
     List<User> findByEmailAndPassword(String email, String password);
+    @Query("SELECT u FROM User u WHERE u.username = :username")
+	Optional<User> findByUsername(String username);
     
     @Query("SELECT new com.Artisan.entities.DTOs.FollowersDTO(a.username) " +
     	       "FROM Artisan a " +

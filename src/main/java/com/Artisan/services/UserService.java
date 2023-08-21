@@ -115,9 +115,9 @@ public class UserService implements IUserService {
 		return userRepository.findArtisansFollowedByUser(username);
 	}
 	
-	public UserProfileDTO asdf(Integer id) {
-	    Optional<User> userSelected = userRepository.findById(id);
-
+	public UserProfileDTO asdf(String username) {
+	   // Optional<User> userSelected = userRepository.findById(id);
+	    Optional<User> userSelected = userRepository.findByUsername(username);
 	    List<Likes> userLikes = likesRepository.findAll().stream()
 	            .filter(likesData -> likesData.getUser_id().equals(userSelected.get().getUser_id()))
 	            .collect(Collectors.toList());

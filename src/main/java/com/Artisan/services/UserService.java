@@ -153,7 +153,7 @@ public class UserService implements IUserService {
 			}
 			
 			//String originalFilename = file.getOriginalFilename();
-	        String newFilename = userId + "_User" /*+ originalFilename*/;
+	        String newFilename = userId + "_User.png" /*+ originalFilename*/;
 
 			// Get a reference to the resource directory & Create a path for the image file
 			Path filePath = Paths.get("src/main/resources/static/images/users").resolve(newFilename);

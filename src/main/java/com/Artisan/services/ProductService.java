@@ -119,7 +119,7 @@ public class ProductService implements IProductService {
 			}
 			
 			//String originalFilename = file.getOriginalFilename();
-	        String newFilename = productId + "_Product" /*+ originalFilename*/;
+	        String newFilename = productId + "_Product.png" /*+ originalFilename*/;
 
 			// Get a reference to the resource directory & Create a path for the image file
 			Path filePath = Paths.get("src/main/resources/static/images/product").resolve(newFilename);

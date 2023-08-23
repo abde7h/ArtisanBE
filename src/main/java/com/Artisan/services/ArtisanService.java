@@ -191,7 +191,7 @@ public class ArtisanService implements IArtisanService {
 			}
 			
 			//String originalFilename = file.getOriginalFilename();
-	        String newFilename = artisanId + "_Artisan" /*+ originalFilename*/;
+	        String newFilename = artisanId + "_Artisan.png" /*+ originalFilename*/;
 
 			// Get a reference to the resource directory & Create a path for the image file
 			Path filePath = Paths.get("src/main/resources/static/images/artisans").resolve(newFilename);
